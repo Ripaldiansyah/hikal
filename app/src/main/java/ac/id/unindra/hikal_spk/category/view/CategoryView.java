@@ -1,20 +1,18 @@
-package ac.id.unindra.hikal_spk.spk.view;
+package ac.id.unindra.hikal_spk.category.view;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import com.formdev.flatlaf.FlatClientProperties;
 
-import ac.id.unindra.hikal_spk.Main;
 import ac.id.unindra.hikal_spk.UI.Button.ButtonCustom;
 import ac.id.unindra.hikal_spk.UI.Icon.IconCustom;
 import ac.id.unindra.hikal_spk.UI.TextField.TextFieldCustom;
-import ac.id.unindra.hikal_spk.login.view.LoginView;
 import net.miginfocom.swing.MigLayout;
 
-public class CriteriaView extends JPanel {
+public class CategoryView extends JPanel {
 
-        public CriteriaView() {
+        public CategoryView() {
                 initComponent();
         }
 
@@ -59,9 +57,9 @@ public class CriteriaView extends JPanel {
         }
 
         private void setHeader() {
-                lbTitle = new JLabel("SPK");
+                lbTitle = new JLabel("Kategori");
                 txtSearch = new TextFieldCustom(
-                                "Cari nama SPK",
+                                "Cari nama Kategori",
                                 null,
                                 true);
                 IconCustom iconPrint = new IconCustom("svg/print.svg", 1f, null);
@@ -74,11 +72,11 @@ public class CriteriaView extends JPanel {
                                 });
                 IconCustom iconAdd = new IconCustom("svg/add.svg", 1f, null);
                 btnAdd = new ButtonCustom(
-                                "Tambah SPK",
+                                "Tambah Kategori",
                                 iconAdd.getIcon(),
                                 "#e7000a",
                                 (e) -> {
-
+                                        changeContent(new CategoryAddView());
                                 });
                 headerPanel.add(lbTitle, "split 3");
                 headerPanel.add(btnPrint, "w 100!, h 30!");
@@ -89,7 +87,7 @@ public class CriteriaView extends JPanel {
         private void setFooter() {
                 IconCustom iconDelete = new IconCustom("svg/delete.svg", 1f, null);
                 btnDelete = new ButtonCustom(
-                                "Hapus SPK",
+                                "Hapus Kategori",
                                 iconDelete.getIcon(),
                                 "#e7000a",
                                 (e) -> {
@@ -97,7 +95,7 @@ public class CriteriaView extends JPanel {
                                 });
                 IconCustom iconChange = new IconCustom("svg/edit.svg", 1f, null);
                 btnChange = new ButtonCustom(
-                                "Ubah SPK",
+                                "Ubah Kategori",
                                 iconChange.getIcon(),
                                 "#a0a0a0",
                                 (e) -> {
@@ -107,6 +105,17 @@ public class CriteriaView extends JPanel {
                 footerPanel.add(btnDelete, "w 140!, h 30!");
                 footerPanel.add(btnChange, "w 140!, h 30!,gapy 5");
 
+        }
+
+        private void changeContent(JPanel panel) {
+                removeAll();
+                add(panel);
+                refreshUI();
+        }
+
+        private void refreshUI() {
+                repaint();
+                revalidate();
         }
 
         JPanel mainPanel;

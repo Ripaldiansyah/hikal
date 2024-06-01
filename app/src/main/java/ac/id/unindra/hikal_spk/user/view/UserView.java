@@ -8,6 +8,7 @@ import com.formdev.flatlaf.FlatClientProperties;
 import ac.id.unindra.hikal_spk.UI.Button.ButtonCustom;
 import ac.id.unindra.hikal_spk.UI.Icon.IconCustom;
 import ac.id.unindra.hikal_spk.UI.TextField.TextFieldCustom;
+import ac.id.unindra.hikal_spk.register.view.RegisterView;
 import net.miginfocom.swing.MigLayout;
 
 public class UserView extends JPanel {
@@ -76,7 +77,7 @@ public class UserView extends JPanel {
                                 iconAdd.getIcon(),
                                 "#e7000a",
                                 (e) -> {
-
+                                        changeContent();
                                 });
                 headerPanel.add(lbTitle, "split 3");
                 headerPanel.add(btnPrint, "w 100!, h 30!");
@@ -105,6 +106,18 @@ public class UserView extends JPanel {
                 footerPanel.add(btnDelete, "w 140!, h 30!");
                 footerPanel.add(btnChange, "w 140!, h 30!,gapy 5");
 
+        }
+
+        private void changeContent() {
+                removeAll();
+                RegisterView.isFromLogin = false;
+                add(new RegisterView());
+                refreshUI();
+        }
+
+        private void refreshUI() {
+                repaint();
+                revalidate();
         }
 
         JPanel mainPanel;

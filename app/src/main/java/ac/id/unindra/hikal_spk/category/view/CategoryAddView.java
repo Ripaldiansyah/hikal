@@ -1,24 +1,20 @@
-package ac.id.unindra.hikal_spk.alternative.view;
+package ac.id.unindra.hikal_spk.category.view;
 
-import java.awt.Color;
-import java.awt.Component;
-
-import javax.swing.DefaultListCellRenderer;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
 
 import com.formdev.flatlaf.FlatClientProperties;
 
+import ac.id.unindra.hikal_spk.Main;
 import ac.id.unindra.hikal_spk.UI.Button.ButtonCustom;
 import ac.id.unindra.hikal_spk.UI.Icon.IconCustom;
 import ac.id.unindra.hikal_spk.UI.TextField.TextFieldCustom;
+import ac.id.unindra.hikal_spk.login.view.LoginView;
 import net.miginfocom.swing.MigLayout;
 
-public class AlternativeAddView extends JPanel {
+public class CategoryAddView extends JPanel {
 
-    public AlternativeAddView() {
+    public CategoryAddView() {
         initComponents();
     }
 
@@ -43,25 +39,6 @@ public class AlternativeAddView extends JPanel {
                 + "background:lighten(@background,3%)");
         lbTitle.putClientProperty(FlatClientProperties.STYLE, ""
                 + "font:bold +10");
-        cbAlternative.putClientProperty(FlatClientProperties.STYLE, ""
-                + "focusColor:#e7000a;"
-                + "focusedBorderColor:#e7000a");
-        cbAlternative.setRenderer(new DefaultListCellRenderer() {
-            @Override
-            public Component getListCellRendererComponent(JList<?> list, Object value, int index,
-                    boolean isSelected, boolean cellHasFocus) {
-                Component component = super.getListCellRendererComponent(list, value, index, isSelected,
-                        cellHasFocus);
-                if (isSelected) {
-                    component.setBackground(Color.decode("#e7000a"));
-                    component.setForeground(Color.WHITE);
-                } else {
-                    component.setBackground(Color.WHITE);
-                    component.setForeground(Color.BLACK);
-                }
-                return component;
-            }
-        });
     }
 
     private void initAdd() {
@@ -71,7 +48,7 @@ public class AlternativeAddView extends JPanel {
                 iconBack.getIcon(),
                 "#f2f2f2",
                 (e) -> {
-                    changeContent(new AlternativeView());
+                    changeContent(new CategoryView());
                 });
         mainPanel.add(btnBack);
         mainPanel.add(contentPanel, "center, gapy 30");
@@ -79,14 +56,12 @@ public class AlternativeAddView extends JPanel {
     }
 
     private void setContent() {
-        lbTitle = new JLabel("Tambah Alternatif");
-        JLabel lbCriteriaName = new JLabel("Nama Alternatif");
-        JLabel lbCriteriaAlternative = new JLabel("Kategori Alternatif");
-        txtCriteriaName = new TextFieldCustom(
-                "Masukan Nama Alternatif",
+        lbTitle = new JLabel("Tambah Kategori");
+        JLabel lbCategoryName = new JLabel("Nama kategori");
+        txtCategoryName = new TextFieldCustom(
+                "Masukan Nama Kategori",
                 null,
                 true);
-        cbAlternative = new JComboBox<>(alternative);
         btnSave = new ButtonCustom(
                 "Simpan",
                 null,
@@ -95,11 +70,9 @@ public class AlternativeAddView extends JPanel {
 
                 });
 
-        contentPanel.add(lbTitle, "w 190!, center");
-        contentPanel.add(lbCriteriaName, "gapy 20");
-        contentPanel.add(txtCriteriaName, "gapy 0, h 35!");
-        contentPanel.add(lbCriteriaAlternative, "gapy 10");
-        contentPanel.add(cbAlternative, "gapy 0, h 35!");
+        contentPanel.add(lbTitle, "w 177!, center");
+        contentPanel.add(lbCategoryName, "gapy 20");
+        contentPanel.add(txtCategoryName, "gapy 0, h 35!");
         contentPanel.add(btnSave, "gapy 10, h 35!");
     }
 
@@ -116,10 +89,8 @@ public class AlternativeAddView extends JPanel {
 
     JPanel mainPanel;
     JPanel contentPanel;
-    TextFieldCustom txtCriteriaName;
+    TextFieldCustom txtCategoryName;
     ButtonCustom btnSave;
     ButtonCustom btnBack;
-    JComboBox<String> cbAlternative;
-    String[] alternative = { "Admin", "Pengguna" };
     JLabel lbTitle;
 }

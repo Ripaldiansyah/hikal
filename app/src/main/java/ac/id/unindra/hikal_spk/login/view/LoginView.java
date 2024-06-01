@@ -43,6 +43,7 @@ public class LoginView extends JPanel {
                                 null,
                                 "#a8a8a8",
                                 (e) -> {
+                                        RegisterView.isFromLogin = true;
                                         Main.content.loginRegisterPanel(new RegisterView());
                                 });
 
@@ -52,8 +53,6 @@ public class LoginView extends JPanel {
 
                 lbTitle.putClientProperty(FlatClientProperties.STYLE, ""
                                 + "font:bold +10");
-                txtPassword.putClientProperty(FlatClientProperties.STYLE, ""
-                                + "showRevealButton:true");
 
         }
 

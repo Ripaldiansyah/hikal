@@ -26,6 +26,9 @@ public class TextFieldCustom extends FlatTextField {
         setShowClearButton(true);
         setPreferredSize(new Dimension(getPreferredSize().width, 45));
         setSelectAllOnFocusPolicy(SelectAllOnFocusPolicy.always);
+        putClientProperty(FlatClientProperties.STYLE, ""
+                + "focusColor:#e7000a;"
+                + "focusedBorderColor:#e7000a");
 
     }
 

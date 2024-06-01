@@ -22,14 +22,14 @@ public class Main extends JFrame {
 
     private void configureFrame() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(UIScale.scale(new Dimension(1366, 768)));
-        // setSize(UIScale.scale(new Dimension(700, 500)));
+        // setSize(UIScale.scale(new Dimension(1366, 768)));
+        setSize(UIScale.scale(new Dimension(700, 500)));
         setLocationRelativeTo(null);
     }
 
     private void initUI() {
         configureFrame();
-        setContentPane(new MenuView());
+        setContentPane(new LoginView());
     }
 
     private void refreshUI() {

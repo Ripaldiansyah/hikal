@@ -32,8 +32,6 @@ dependencies {
     implementation 'net.sf.jasperreports:jasperreports:6.21.3'
     implementation 'org.xerial:sqlite-jdbc:3.45.3.0'
     implementation 'com.miglayout:miglayout-swing:11.3'
-    implementation files("$projectDir/library/swing-toast-notifications-1.0.2.jar")
-    implementation files("$projectDir/library/swing-glasspane-popup-1.4.0.jar")
     implementation 'com.formdev:flatlaf-extras:3.4.1'
     implementation 'org.codehaus.groovy:groovy-all:3.0.9'
     

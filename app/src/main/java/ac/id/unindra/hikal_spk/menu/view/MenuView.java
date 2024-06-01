@@ -11,7 +11,7 @@ import com.formdev.flatlaf.FlatClientProperties;
 import ac.id.unindra.hikal_spk.UI.Button.ButtonCustom;
 import ac.id.unindra.hikal_spk.UI.Icon.IconCustom;
 import ac.id.unindra.hikal_spk.criteria.view.CriteriaView;
-import ac.id.unindra.hikal_spk.login.view.LoginView;
+import ac.id.unindra.hikal_spk.dashboard.view.DashboardView;
 import ac.id.unindra.hikal_spk.menu.controller.MenuController;
 import net.miginfocom.swing.MigLayout;
 import java.awt.event.ActionListener;
@@ -68,8 +68,8 @@ public class MenuView extends JPanel {
                     refreshUI();
                 });
 
-        // add Content
-        changeContent(new CriteriaView());
+        // add first Content
+        changeContent(new DashboardView());
         changeMenuDisplay();
         mainPanel.add(contentPanel, "grow, push");
         add(mainPanel, "grow");
@@ -102,6 +102,7 @@ public class MenuView extends JPanel {
         String[] title = {
                 "Dashboard",
                 "Pengguna",
+                "Kategori",
                 "Kriteria",
                 "Alternatif",
                 "SPK",
@@ -112,6 +113,7 @@ public class MenuView extends JPanel {
         String[] path = {
                 "svg/dashboard.svg",
                 "svg/user.svg",
+                "svg/category.svg",
                 "svg/criteria.svg",
                 "svg/alternative.svg",
                 "svg/spk.svg",
@@ -120,11 +122,12 @@ public class MenuView extends JPanel {
                 "svg/logout.svg" };
 
         ActionListener[] actions = {
-                e -> System.out.println("Button 1 clicked"),
-                e -> System.out.println("Button 2 clicked"),
+                e -> changeContent(controller.dashboard()),
+                e -> changeContent(controller.user()),
+                e -> changeContent(controller.category()),
                 e -> changeContent(controller.criteria()),
                 e -> changeContent(controller.alternative()),
-                e -> System.out.println("Button 4 clicked"),
+                e -> changeContent(controller.spk()),
                 e -> System.out.println("Button 5 clicked"),
                 e -> System.out.println("Button 6 clicked"),
                 e -> controller.logout()

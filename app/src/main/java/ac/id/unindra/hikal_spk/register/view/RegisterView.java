@@ -1,6 +1,10 @@
 package ac.id.unindra.hikal_spk.register.view;
 
 import net.miginfocom.swing.MigLayout;
+
+import java.awt.Color;
+import java.awt.Component;
+
 import javax.swing.*;
 
 import com.formdev.flatlaf.FlatClientProperties;
@@ -11,6 +15,7 @@ import ac.id.unindra.hikal_spk.UI.Icon.IconCustom;
 import ac.id.unindra.hikal_spk.UI.PasswordField.PasswordFieldCustom;
 import ac.id.unindra.hikal_spk.UI.TextField.TextFieldCustom;
 import ac.id.unindra.hikal_spk.login.view.LoginView;
+import ac.id.unindra.hikal_spk.user.view.UserView;
 
 public class RegisterView extends JPanel {
 
@@ -42,14 +47,21 @@ public class RegisterView extends JPanel {
                                 (e) -> {
 
                                 });
-
+                cbRole = new JComboBox<>(role);
                 IconCustom iconBack = new IconCustom("svg/back.svg", 1f, "#000000");
                 btnBack = new ButtonCustom(
                                 null,
                                 iconBack.getIcon(),
                                 "#f2f2f2",
                                 (e) -> {
-                                        Main.content.loginRegisterPanel(new LoginView());
+                                        if (isFromLogin) {
+                                                Main.content.loginRegisterPanel(new LoginView());
+                                        } else {
+                                                setLayout(new MigLayout("fill,wrap, insets 0 5 0 0", "[fill]",
+                                                                "[fill]"));
+                                                changeContent(new UserView());
+                                        }
+
                                 });
 
                 panel.putClientProperty(FlatClientProperties.STYLE, ""
@@ -57,10 +69,25 @@ public class RegisterView extends JPanel {
                                 + "background:lighten(@background,3%)");
                 lbTitle.putClientProperty(FlatClientProperties.STYLE, ""
                                 + "font:bold +10");
-                txtPassword.putClientProperty(FlatClientProperties.STYLE, ""
-                                + "showRevealButton:true");
-                txtPasswordConfirm.putClientProperty(FlatClientProperties.STYLE, ""
-                                + "showRevealButton:true");
+                cbRole.putClientProperty(FlatClientProperties.STYLE, ""
+                                + "focusColor:#e7000a;"
+                                + "focusedBorderColor:#e7000a");
+                cbRole.setRenderer(new DefaultListCellRenderer() {
+                        @Override
+                        public Component getListCellRendererComponent(JList<?> list, Object value, int index,
+                                        boolean isSelected, boolean cellHasFocus) {
+                                Component component = super.getListCellRendererComponent(list, value, index, isSelected,
+                                                cellHasFocus);
+                                if (isSelected) {
+                                        component.setBackground(Color.decode("#e7000a"));
+                                        component.setForeground(Color.WHITE);
+                                } else {
+                                        component.setBackground(Color.WHITE);
+                                        component.setForeground(Color.BLACK);
+                                }
+                                return component;
+                        }
+                });
         }
 
         private void addComponent() {
@@ -72,8 +99,23 @@ public class RegisterView extends JPanel {
                 panel.add(txtPassword.getPasswordField());
                 panel.add(new JLabel("Kata Sandi Konfirmasi"), "gapy 8");
                 panel.add(txtPasswordConfirm.getPasswordField());
+                if (!isFromLogin) {
+                        panel.add(new JLabel("Pilih Role"), "gapy 8");
+                        panel.add(cbRole, "h 40!");
+                }
                 panel.add(btnRegister, "gapy 8");
                 add(panel, "center, gapy 30");
+        }
+
+        private void changeContent(JPanel panel) {
+                removeAll();
+                add(panel);
+                refreshUI();
+        }
+
+        private void refreshUI() {
+                repaint();
+                revalidate();
         }
 
         JPanel panel;
@@ -83,4 +125,7 @@ public class RegisterView extends JPanel {
         PasswordFieldCustom txtPasswordConfirm;
         ButtonCustom btnRegister;
         ButtonCustom btnBack;
+        JComboBox<String> cbRole;
+        String[] role = { "Admin", "Pengguna" };
+        public static boolean isFromLogin;
 }

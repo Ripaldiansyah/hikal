@@ -1,20 +1,18 @@
-package ac.id.unindra.hikal_spk.alternative.view;
+package ac.id.unindra.hikal_spk.spk.view;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import com.formdev.flatlaf.FlatClientProperties;
 
-import ac.id.unindra.hikal_spk.Main;
 import ac.id.unindra.hikal_spk.UI.Button.ButtonCustom;
 import ac.id.unindra.hikal_spk.UI.Icon.IconCustom;
 import ac.id.unindra.hikal_spk.UI.TextField.TextFieldCustom;
-import ac.id.unindra.hikal_spk.login.view.LoginView;
 import net.miginfocom.swing.MigLayout;
 
-public class AlternativeView extends JPanel {
+public class SPKView extends JPanel {
 
-        public AlternativeView() {
+        public SPKView() {
                 initComponent();
         }
 
@@ -59,9 +57,9 @@ public class AlternativeView extends JPanel {
         }
 
         private void setHeader() {
-                lbTitle = new JLabel("Alternatif");
+                lbTitle = new JLabel("SPK");
                 txtSearch = new TextFieldCustom(
-                                "Cari nama Alternatif",
+                                "Cari Keputusan",
                                 null,
                                 true);
                 IconCustom iconPrint = new IconCustom("svg/print.svg", 1f, null);
@@ -74,11 +72,11 @@ public class AlternativeView extends JPanel {
                                 });
                 IconCustom iconAdd = new IconCustom("svg/add.svg", 1f, null);
                 btnAdd = new ButtonCustom(
-                                "Tambah Alternatif",
+                                "Keputusan Baru",
                                 iconAdd.getIcon(),
                                 "#e7000a",
                                 (e) -> {
-                                        changeContent(new AlternativeAddView());
+
                                 });
                 headerPanel.add(lbTitle, "split 3");
                 headerPanel.add(btnPrint, "w 100!, h 30!");
@@ -89,35 +87,24 @@ public class AlternativeView extends JPanel {
         private void setFooter() {
                 IconCustom iconDelete = new IconCustom("svg/delete.svg", 1f, null);
                 btnDelete = new ButtonCustom(
-                                "Hapus Alternatif",
+                                "Hapus Keputusan",
                                 iconDelete.getIcon(),
                                 "#e7000a",
                                 (e) -> {
 
                                 });
-                IconCustom iconChange = new IconCustom("svg/edit.svg", 1f, null);
-                btnChange = new ButtonCustom(
-                                "Ubah Alternatif",
-                                iconChange.getIcon(),
+                IconCustom iconInfo = new IconCustom("svg/info.svg", 1f, null);
+                btnInfo = new ButtonCustom(
+                                "Lihat Keputusan",
+                                iconInfo.getIcon(),
                                 "#a0a0a0",
                                 (e) -> {
 
                                 });
 
                 footerPanel.add(btnDelete, "w 140!, h 30!");
-                footerPanel.add(btnChange, "w 140!, h 30!,gapy 5");
+                footerPanel.add(btnInfo, "w 140!, h 30!,gapy 5");
 
-        }
-
-        private void changeContent(JPanel panel) {
-                removeAll();
-                add(panel);
-                refreshUI();
-        }
-
-        private void refreshUI() {
-                repaint();
-                revalidate();
         }
 
         JPanel mainPanel;
@@ -129,6 +116,6 @@ public class AlternativeView extends JPanel {
         ButtonCustom btnAdd;
         ButtonCustom btnPrint;
         ButtonCustom btnDelete;
-        ButtonCustom btnChange;
+        ButtonCustom btnInfo;
 
 }
