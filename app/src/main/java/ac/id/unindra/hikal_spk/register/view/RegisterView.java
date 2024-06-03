@@ -15,19 +15,27 @@ import ac.id.unindra.hikal_spk.UI.Icon.IconCustom;
 import ac.id.unindra.hikal_spk.UI.PasswordField.PasswordFieldCustom;
 import ac.id.unindra.hikal_spk.UI.TextField.TextFieldCustom;
 import ac.id.unindra.hikal_spk.login.view.LoginView;
+import ac.id.unindra.hikal_spk.register.controller.RegisterController;
 import ac.id.unindra.hikal_spk.user.view.UserView;
+import ac.id.unindra.hikal_spk.utils.model.user.UserModel;
 
 public class RegisterView extends JPanel {
 
-        public RegisterView() {
+        public RegisterView(String title) {
+                this.title = title;
                 initComponent();
                 addComponent();
+
         }
 
         private void initComponent() {
                 setLayout(new MigLayout("fill,wrap,insets 0 10 40 40", "[left]", "[top]"));
                 panel = new JPanel(new MigLayout("wrap,fillx,insets 35 45 35 45", "fill,250:280"));
-                lbTitle = new JLabel("Register");
+                lbTitle = new JLabel(title);
+                txtFullname = new TextFieldCustom(
+                                "Masukan nama Lengkap",
+                                null,
+                                true);
                 txtUsername = new TextFieldCustom(
                                 "Masukan nama pengguna",
                                 null,
@@ -40,12 +48,12 @@ public class RegisterView extends JPanel {
                                 "Konfirmasi Kata andi Anda",
                                 null,
                                 true);
-                btnRegister = new ButtonCustom(
+                btnSubmit = new ButtonCustom(
                                 "Daftar",
                                 null,
                                 "#e7000a",
                                 (e) -> {
-
+                                        submit();
                                 });
                 cbRole = new JComboBox<>(role);
                 IconCustom iconBack = new IconCustom("svg/back.svg", 1f, "#000000");
@@ -88,11 +96,19 @@ public class RegisterView extends JPanel {
                                 return component;
                         }
                 });
+
+                txtComponent = new TextFieldCustom[2];
+                txtPasswordComponent = new PasswordFieldCustom[2];
+
         }
 
         private void addComponent() {
                 add(btnBack);
                 panel.add(lbTitle, "w 90!, center");
+                panel.add(new JLabel("Nama Lengkap"), "gapy 8");
+                panel.add(txtFullname.getTextField());
+                panel.add(new JLabel("Jenis Kelamin"), "gapy 8");
+                panel.add(gender());
                 panel.add(new JLabel("Nama Pengguna"), "gapy 8");
                 panel.add(txtUsername.getTextField());
                 panel.add(new JLabel("Kata Sandi"), "gapy 8");
@@ -103,8 +119,12 @@ public class RegisterView extends JPanel {
                         panel.add(new JLabel("Pilih Role"), "gapy 8");
                         panel.add(cbRole, "h 40!");
                 }
-                panel.add(btnRegister, "gapy 8");
+                panel.add(btnSubmit, "gapy 8");
                 add(panel, "center, gapy 30");
+                txtComponent[0] = txtFullname;
+                txtComponent[1] = txtUsername;
+                txtPasswordComponent[0] = txtPassword;
+                txtPasswordComponent[1] = txtPasswordConfirm;
         }
 
         private void changeContent(JPanel panel) {
@@ -118,14 +138,92 @@ public class RegisterView extends JPanel {
                 revalidate();
         }
 
-        JPanel panel;
-        JLabel lbTitle;
-        TextFieldCustom txtUsername;
-        PasswordFieldCustom txtPassword;
-        PasswordFieldCustom txtPasswordConfirm;
-        ButtonCustom btnRegister;
-        ButtonCustom btnBack;
-        JComboBox<String> cbRole;
-        String[] role = { "Admin", "Pengguna" };
+        private JPanel gender() {
+                JPanel panel = new JPanel(new MigLayout("insets 0"));
+                panel.putClientProperty(FlatClientProperties.STYLE, "" +
+                                "background:null");
+                genderMale = new JRadioButton("Laki-Laki");
+                genderFemale = new JRadioButton("Perempuan");
+                groupGender = new ButtonGroup();
+                groupGender.add(genderMale);
+                groupGender.add(genderFemale);
+                genderMale.setSelected(true);
+                panel.add(genderMale);
+                panel.add(genderFemale);
+                return panel;
+        }
+
+        private void submit() {
+                controller.getInput(model, txtFullname, txtUsername, genderMale, txtPassword, cbRole);
+                if (controller.fieldNotEmpty(txtComponent)) {
+                        if (controller.passwordValidation(txtPasswordComponent)) {
+
+                                if (isUpdateUser) {
+                                        handleUserUpdate();
+                                } else {
+                                        handleUserCreation();
+                                }
+                        }
+                }
+        }
+
+        private void handleUserUpdate() {
+                if (model.getUsername().equals(oldUsername)) {
+                        updateUser();
+                } else {
+                        if (controller.usernameIsAvailable(model)) {
+                                updateUser();
+                        } else {
+                                controller.notificationIsnAvail();
+                        }
+                }
+        }
+
+        private void handleUserCreation() {
+                if (controller.usernameIsAvailable(model)) {
+                        controller.createUser(model);
+                        controller.notificationCreate();
+                        clearField();
+                } else {
+                        controller.notificationIsnAvail();
+                }
+        }
+
+        private void updateUser() {
+                controller.updateUser(model);
+                controller.notificationUpdate();
+                clearField();
+        }
+
+        private void clearField() {
+                txtFullname.setText(null);
+                txtUsername.setText(null);
+                txtPassword.setText(null);
+                txtPasswordConfirm.setText(null);
+                genderMale.isSelected();
+                cbRole.setSelectedIndex(0);
+        }
+
+        public static String oldUsername;
+        private JPanel panel;
+        private JLabel lbTitle;
+        private TextFieldCustom txtFullname;
+        private TextFieldCustom txtUsername;
+        private PasswordFieldCustom txtPassword;
+        private PasswordFieldCustom txtPasswordConfirm;
+        private ButtonCustom btnSubmit;
+        private ButtonCustom btnBack;
+        private JComboBox<String> cbRole;
+        private String[] role = { "Pengguna", "Admin", };
         public static boolean isFromLogin;
+        public static boolean isUpdateUser;
+        private String title;
+        private JRadioButton genderMale;
+        private JRadioButton genderFemale;
+        private ButtonGroup groupGender;
+        private UserModel model = new UserModel();
+        TextFieldCustom[] txtComponent;
+        PasswordFieldCustom[] txtPasswordComponent;
+
+        private RegisterController controller = new RegisterController();
 }

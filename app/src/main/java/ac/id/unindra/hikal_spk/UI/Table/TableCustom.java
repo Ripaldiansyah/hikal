@@ -2,6 +2,7 @@ package ac.id.unindra.hikal_spk.UI.Table;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -31,16 +32,21 @@ public class TableCustom extends JPanel {
         for (int i = 0; i < table.getColumnCount(); i++) {
             table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
-
         JLabel lbTitle = new JLabel(title);
         lbTitle.putClientProperty(FlatClientProperties.STYLE, "" +
                 "font:bold +5");
-
-        JPanel tablePanel = new JPanel(new MigLayout("wrap,insets 0", "[grow, fill]"));
+        JScrollPane scrollPane = new JScrollPane(table);
+        JPanel tablePanel = new JPanel(new MigLayout("wrap,insets 0", "[fill]", "fill"));
+        tablePanel.putClientProperty(FlatClientProperties.STYLE, ""
+                + "background:lighten(@background,10%)");
+        table.putClientProperty(FlatClientProperties.STYLE, ""
+                + "selectionBackground:#e7000a");
+        scrollPane.putClientProperty(FlatClientProperties.STYLE, ""
+                + "foreground:#e7000a;"
+                + "background:#e7000a");
         tablePanel.add(lbTitle);
-        tablePanel.add(table.getTableHeader(), "span, growx");
-        tablePanel.add(table, "grow, gaptop 0");
-
+        tablePanel.add(table.getTableHeader(), "push, h 40!");
+        tablePanel.add(scrollPane, "push, gap 0");
         setLayout(new MigLayout("wrap,insets 0", "[grow, fill]"));
         add(tablePanel);
     }

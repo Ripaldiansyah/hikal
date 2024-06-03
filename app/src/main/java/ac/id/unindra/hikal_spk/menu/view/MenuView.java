@@ -99,6 +99,7 @@ public class MenuView extends JPanel {
             menuPanel.removeAll();
             menuPanel.add(logo());
         }
+
         String[] title = {
                 "Dashboard",
                 "Pengguna",
@@ -143,16 +144,35 @@ public class MenuView extends JPanel {
         }
 
         for (int i = 0; i < title.length; i++) {
-            btnMenuArray[i] = new ButtonCustom(isMenuVisible ? title[i] : null, icons[i], "#d80009", actions[i]);
-            if (isMenuVisible) {
-                btnMenuArray[i].setHorizontalAlignment(SwingConstants.LEFT);
-                btnMenuArray[i].setBorder(new EmptyBorder(0, 13, 0, 0));
-            }
+            if (isAdmin) {
+                btnMenuArray[i] = new ButtonCustom(isMenuVisible ? title[i] : null, icons[i], "#d80009", actions[i]);
+                if (isMenuVisible) {
+                    btnMenuArray[i].setHorizontalAlignment(SwingConstants.LEFT);
+                    btnMenuArray[i].setBorder(new EmptyBorder(0, 13, 0, 0));
+                }
 
-            if (i == 0) {
-                menuPanel.add(btnMenuArray[i].getButton(), isMenuVisible ? "gapy 56, h 50!" : "gapy 100, h 30!");
+                if (i == 0) {
+                    menuPanel.add(btnMenuArray[i].getButton(), isMenuVisible ? "gapy 56, h 50!" : "gapy 100, h 30!");
+                } else {
+                    menuPanel.add(btnMenuArray[i].getButton(), isMenuVisible ? "gapy 0, h 50!" : "gapy 20, h 30!");
+                }
             } else {
-                menuPanel.add(btnMenuArray[i].getButton(), isMenuVisible ? "gapy 0, h 50!" : "gapy 20, h 30!");
+                boolean isUser = i == 1 || i == 2 || i == 3 || i == 4 || i == 6;
+                if (!isUser) {
+                    btnMenuArray[i] = new ButtonCustom(isMenuVisible ? title[i] : null, icons[i], "#d80009",
+                            actions[i]);
+                    if (isMenuVisible) {
+                        btnMenuArray[i].setHorizontalAlignment(SwingConstants.LEFT);
+                        btnMenuArray[i].setBorder(new EmptyBorder(0, 13, 0, 0));
+                    }
+
+                    if (i == 0) {
+                        menuPanel.add(btnMenuArray[i].getButton(),
+                                isMenuVisible ? "gapy 56, h 50!" : "gapy 100, h 30!");
+                    } else {
+                        menuPanel.add(btnMenuArray[i].getButton(), isMenuVisible ? "gapy 0, h 50!" : "gapy 20, h 30!");
+                    }
+                }
             }
 
         }
@@ -183,4 +203,5 @@ public class MenuView extends JPanel {
     boolean isVisible = false;
     boolean isMenuVisible = false;
     MenuController controller = new MenuController();
+    public static boolean isAdmin = false;
 }

@@ -7,8 +7,11 @@ import com.formdev.flatlaf.FlatClientProperties;
 
 import ac.id.unindra.hikal_spk.UI.Button.ButtonCustom;
 import ac.id.unindra.hikal_spk.UI.Icon.IconCustom;
+import ac.id.unindra.hikal_spk.UI.Table.TableCustom;
 import ac.id.unindra.hikal_spk.UI.TextField.TextFieldCustom;
 import ac.id.unindra.hikal_spk.register.view.RegisterView;
+import ac.id.unindra.hikal_spk.user.controller.UserController;
+import ac.id.unindra.hikal_spk.utils.model.TableModel.user.UserTableModel;
 import net.miginfocom.swing.MigLayout;
 
 public class UserView extends JPanel {
@@ -20,6 +23,7 @@ public class UserView extends JPanel {
         private void initComponent() {
                 initLayout();
                 setHeader();
+                setContent();
                 setFooter();
                 initStyle();
                 initAdd();
@@ -30,7 +34,7 @@ public class UserView extends JPanel {
                 setLayout(new MigLayout("fill,wrap, insets 0 5 0 0", "[fill]", "[fill]"));
                 mainPanel = new JPanel(new MigLayout("fill,wrap, insets 10 10 0 10", "[fill,left]", "[top]"));
                 headerPanel = new JPanel(new MigLayout("fill,wrap, insets 5", "[fill,left]", "[top]"));
-                contentPanel = new JPanel(new MigLayout("fill,wrap, insets 5", "[fill, center]", "[fill,top]"));
+                contentPanel = new JPanel(new MigLayout("fill,wrap, insets 0", "[fill, center]", "[fill,top]"));
                 footerPanel = new JPanel(new MigLayout("insets 5, wrap", "[left]", "[top]"));
         }
 
@@ -40,9 +44,6 @@ public class UserView extends JPanel {
                                 + "background:lighten(@background,10%)");
                 headerPanel.putClientProperty(FlatClientProperties.STYLE, ""
                                 + "background:lighten(@background,10%)");
-                contentPanel.putClientProperty(FlatClientProperties.STYLE, ""
-
-                                + "background:#b8afe2");
                 footerPanel.putClientProperty(FlatClientProperties.STYLE, ""
                                 + "background:lighten(@background,10%)");
                 lbTitle.putClientProperty(FlatClientProperties.STYLE, ""
@@ -77,12 +78,18 @@ public class UserView extends JPanel {
                                 iconAdd.getIcon(),
                                 "#e7000a",
                                 (e) -> {
-                                        changeContent();
+                                        changeContent(new RegisterView("Register"));
                                 });
                 headerPanel.add(lbTitle, "split 3");
                 headerPanel.add(btnPrint, "w 100!, h 30!");
                 headerPanel.add(btnAdd, "w 140!, h 30!, gapx 10");
                 headerPanel.add(txtSearch, "h 30!, gapy 10");
+        }
+
+        private void setContent() {
+                userTableModel.setData(controller.getData());
+                userTable = new TableCustom(userTableModel, null);
+                contentPanel.add(userTable);
         }
 
         private void setFooter() {
@@ -108,10 +115,10 @@ public class UserView extends JPanel {
 
         }
 
-        private void changeContent() {
+        private void changeContent(JPanel panel) {
                 removeAll();
                 RegisterView.isFromLogin = false;
-                add(new RegisterView());
+                add(panel);
                 refreshUI();
         }
 
@@ -120,15 +127,28 @@ public class UserView extends JPanel {
                 revalidate();
         }
 
-        JPanel mainPanel;
-        JPanel headerPanel;
-        JPanel contentPanel;
-        JPanel footerPanel;
-        JLabel lbTitle;
-        TextFieldCustom txtSearch;
-        ButtonCustom btnAdd;
-        ButtonCustom btnPrint;
-        ButtonCustom btnDelete;
-        ButtonCustom btnChange;
+        private void disableButton() {
+                btnDelete.setEnabled(false);
+                btnChange.setEnabled(false);
+        }
+
+        private void enableButton() {
+                btnDelete.setEnabled(true);
+                btnChange.setEnabled(true);
+        }
+
+        private JPanel mainPanel;
+        private JPanel headerPanel;
+        private JPanel contentPanel;
+        private JPanel footerPanel;
+        private JLabel lbTitle;
+        private TextFieldCustom txtSearch;
+        private ButtonCustom btnAdd;
+        private ButtonCustom btnPrint;
+        private ButtonCustom btnDelete;
+        private ButtonCustom btnChange;
+        private UserTableModel userTableModel = new UserTableModel();
+        private TableCustom userTable;
+        private UserController controller = new UserController();
 
 }
