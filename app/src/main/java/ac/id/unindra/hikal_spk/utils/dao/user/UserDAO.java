@@ -227,7 +227,7 @@ public class UserDAO implements UserService {
         ResultSet rs = null;
         String sql = "SELECT * FROM users " +
                 "WHERE user_id LIKE '%" + key + "%' " +
-                "OR full_name LIKE '%" + key + "%' " +
+                "OR fullname LIKE '%" + key + "%' " +
                 "OR username LIKE '%" + key + "%' " +
                 "OR gender LIKE '%" + key + "%' " +
                 "OR role LIKE '%" + key + "%' ";
@@ -240,7 +240,7 @@ public class UserDAO implements UserService {
                 UserModel user = new UserModel();
                 user.setUserID(rs.getString("user_id"));
                 user.setUsername(rs.getString("username"));
-                user.setFullname(rs.getString("full_name"));
+                user.setFullname(rs.getString("fullname"));
                 user.setGender(rs.getString("gender"));
                 user.setRole(rs.getString("role"));
                 users.add(user);

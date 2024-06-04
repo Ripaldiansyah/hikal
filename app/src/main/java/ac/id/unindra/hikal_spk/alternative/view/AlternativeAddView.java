@@ -14,11 +14,16 @@ import com.formdev.flatlaf.FlatClientProperties;
 import ac.id.unindra.hikal_spk.UI.Button.ButtonCustom;
 import ac.id.unindra.hikal_spk.UI.Icon.IconCustom;
 import ac.id.unindra.hikal_spk.UI.TextField.TextFieldCustom;
+import ac.id.unindra.hikal_spk.alternative.controller.AlternativeController;
+import ac.id.unindra.hikal_spk.category.view.CategoryView;
+import ac.id.unindra.hikal_spk.utils.model.alternative.AlternativeModel;
+import ac.id.unindra.hikal_spk.utils.model.category.CategoryModel;
 import net.miginfocom.swing.MigLayout;
 
 public class AlternativeAddView extends JPanel {
 
-    public AlternativeAddView() {
+    public AlternativeAddView(String title) {
+        this.title = title;
         initComponents();
     }
 
@@ -43,10 +48,10 @@ public class AlternativeAddView extends JPanel {
                 + "background:lighten(@background,3%)");
         lbTitle.putClientProperty(FlatClientProperties.STYLE, ""
                 + "font:bold +10");
-        cbAlternative.putClientProperty(FlatClientProperties.STYLE, ""
+        cbCategory.putClientProperty(FlatClientProperties.STYLE, ""
                 + "focusColor:#e7000a;"
                 + "focusedBorderColor:#e7000a");
-        cbAlternative.setRenderer(new DefaultListCellRenderer() {
+        cbCategory.setRenderer(new DefaultListCellRenderer() {
             @Override
             public Component getListCellRendererComponent(JList<?> list, Object value, int index,
                     boolean isSelected, boolean cellHasFocus) {
@@ -79,32 +84,40 @@ public class AlternativeAddView extends JPanel {
     }
 
     private void setContent() {
-        lbTitle = new JLabel("Tambah Alternatif");
+        lbTitle = new JLabel(title);
         JLabel lbCriteriaName = new JLabel("Nama Alternatif");
         JLabel lbCriteriaAlternative = new JLabel("Kategori Alternatif");
-        txtCriteriaName = new TextFieldCustom(
+        txtAlternativeName = new TextFieldCustom(
                 "Masukan Nama Alternatif",
                 null,
                 true);
-        cbAlternative = new JComboBox<>(alternative);
-        btnSave = new ButtonCustom(
-                "Simpan",
+
+        String[] categoryArray = new String[controller.getCategory().size()];
+        int i = 0;
+        for (String category : controller.getCategory()) {
+            categoryArray[i++] = category;
+        }
+
+        cbCategory = new JComboBox<>(categoryArray);
+        btnSubmit = new ButtonCustom(
+                "Submit",
                 null,
                 "#e7000a",
                 (e) -> {
-
+                    submit();
                 });
 
         contentPanel.add(lbTitle, "w 190!, center");
         contentPanel.add(lbCriteriaName, "gapy 20");
-        contentPanel.add(txtCriteriaName, "gapy 0, h 35!");
+        contentPanel.add(txtAlternativeName, "gapy 0, h 35!");
         contentPanel.add(lbCriteriaAlternative, "gapy 10");
-        contentPanel.add(cbAlternative, "gapy 0, h 35!");
-        contentPanel.add(btnSave, "gapy 10, h 35!");
+        contentPanel.add(cbCategory, "gapy 0, h 35!");
+        contentPanel.add(btnSubmit, "gapy 10, h 35!");
     }
 
     private void changeContent(JPanel panel) {
         removeAll();
+        setLayout(new MigLayout("fill,wrap, insets 0", "[fill]", "[fill]"));
         add(panel);
         refreshUI();
     }
@@ -114,12 +127,64 @@ public class AlternativeAddView extends JPanel {
         revalidate();
     }
 
-    JPanel mainPanel;
-    JPanel contentPanel;
-    TextFieldCustom txtCriteriaName;
-    ButtonCustom btnSave;
-    ButtonCustom btnBack;
-    JComboBox<String> cbAlternative;
-    String[] alternative = { "Admin", "Pengguna" };
-    JLabel lbTitle;
+    public void setAlternativeEdit(AlternativeModel model) {
+        oldAlternativeName = model.getAlternativeName();
+        oldCategoryName = model.getCategory().getCategoryName();
+        txtAlternativeName.setText(oldAlternativeName);
+        cbCategory.setSelectedItem(oldCategoryName);
+
+        this.model = model;
+    }
+
+    private void submit() {
+        controller.getInput(model, txtAlternativeName, cbCategory);
+        if (controller.fieldNotEmpty(txtAlternativeName)) {
+            if (isUpdate) {
+                handleUpdate();
+            } else {
+                handleCreation();
+            }
+
+        }
+    }
+
+    private void handleCreation() {
+        if (controller.isRegistered(model)) {
+            controller.notificationIsnAvail();
+        } else {
+            controller.createCategory(model);
+            changeContent(new AlternativeView());
+        }
+    }
+
+    private void handleUpdate() {
+        boolean alternativeSame = oldAlternativeName.equalsIgnoreCase(txtAlternativeName.getText());
+        boolean categorySame = oldCategoryName.equalsIgnoreCase(cbCategory.getSelectedItem().toString());
+        boolean isSame = alternativeSame && categorySame;
+        if (isSame) {
+            controller.notificationIsnChange();
+        } else {
+            if (controller.isRegistered(model)) {
+                controller.notificationIsnAvail();
+            } else {
+                controller.updateData(model);
+                changeContent(new AlternativeView());
+            }
+
+        }
+    }
+
+    public static boolean isUpdate;
+    private String oldCategoryName;
+    private String oldAlternativeName;
+    private JPanel mainPanel;
+    private JPanel contentPanel;
+    private TextFieldCustom txtAlternativeName;
+    private ButtonCustom btnSubmit;
+    private ButtonCustom btnBack;
+    private JComboBox<String> cbCategory;
+    private AlternativeController controller = new AlternativeController();
+    private AlternativeModel model = new AlternativeModel();
+    private JLabel lbTitle;
+    private String title;
 }

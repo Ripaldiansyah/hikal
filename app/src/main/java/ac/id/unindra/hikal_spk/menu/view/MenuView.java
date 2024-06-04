@@ -10,9 +10,10 @@ import com.formdev.flatlaf.FlatClientProperties;
 
 import ac.id.unindra.hikal_spk.UI.Button.ButtonCustom;
 import ac.id.unindra.hikal_spk.UI.Icon.IconCustom;
-import ac.id.unindra.hikal_spk.criteria.view.CriteriaView;
-import ac.id.unindra.hikal_spk.dashboard.view.DashboardView;
+import ac.id.unindra.hikal_spk.alternative.view.AlternativeView;
+import ac.id.unindra.hikal_spk.category.view.CategoryView;
 import ac.id.unindra.hikal_spk.menu.controller.MenuController;
+import ac.id.unindra.hikal_spk.user.view.UserView;
 import net.miginfocom.swing.MigLayout;
 import java.awt.event.ActionListener;
 
@@ -69,7 +70,7 @@ public class MenuView extends JPanel {
                 });
 
         // add first Content
-        changeContent(new DashboardView());
+        changeContent(new AlternativeView());
         changeMenuDisplay();
         mainPanel.add(contentPanel, "grow, push");
         add(mainPanel, "grow");
@@ -104,8 +105,8 @@ public class MenuView extends JPanel {
                 "Dashboard",
                 "Pengguna",
                 "Kategori",
-                "Kriteria",
                 "Alternatif",
+                "Kriteria",
                 "SPK",
                 "Laporan",
                 "Pengaturan",
@@ -115,8 +116,8 @@ public class MenuView extends JPanel {
                 "svg/dashboard.svg",
                 "svg/user.svg",
                 "svg/category.svg",
-                "svg/criteria.svg",
                 "svg/alternative.svg",
+                "svg/criteria.svg",
                 "svg/spk.svg",
                 "svg/report.svg",
                 "svg/setting.svg",
@@ -126,8 +127,8 @@ public class MenuView extends JPanel {
                 e -> changeContent(controller.dashboard()),
                 e -> changeContent(controller.user()),
                 e -> changeContent(controller.category()),
-                e -> changeContent(controller.criteria()),
                 e -> changeContent(controller.alternative()),
+                e -> changeContent(controller.criteria()),
                 e -> changeContent(controller.spk()),
                 e -> System.out.println("Button 5 clicked"),
                 e -> System.out.println("Button 6 clicked"),

@@ -32,7 +32,7 @@ public class Main extends JFrame {
 
     private void initUI() {
         configureFrame();
-        setContentPane(new UserView());
+        setContentPane(new MenuView());
     }
 
     private void refreshUI() {

@@ -111,6 +111,7 @@ public class CriteriaView extends JPanel {
 
         private void changeContent(JPanel panel) {
                 removeAll();
+                setLayout(new MigLayout("fill,wrap, insets 0", "[fill]", "[fill]"));
                 add(panel);
                 refreshUI();
         }

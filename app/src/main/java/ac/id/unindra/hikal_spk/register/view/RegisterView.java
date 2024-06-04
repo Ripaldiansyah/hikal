@@ -49,7 +49,7 @@ public class RegisterView extends JPanel {
                                 null,
                                 true);
                 btnSubmit = new ButtonCustom(
-                                "Daftar",
+                                "Submit",
                                 null,
                                 "#e7000a",
                                 (e) -> {
@@ -65,9 +65,7 @@ public class RegisterView extends JPanel {
                                         if (isFromLogin) {
                                                 Main.content.loginRegisterPanel(new LoginView());
                                         } else {
-                                                setLayout(new MigLayout("fill,wrap, insets 0 5 0 0", "[fill]",
-                                                                "[fill]"));
-                                                changeContent(new UserView());
+                                                backToUserView();
                                         }
 
                                 });
@@ -100,6 +98,12 @@ public class RegisterView extends JPanel {
                 txtComponent = new TextFieldCustom[2];
                 txtPasswordComponent = new PasswordFieldCustom[2];
 
+        }
+
+        private void backToUserView() {
+                setLayout(new MigLayout("fill,wrap, insets 0 5 0 0", "[fill]",
+                                "[fill]"));
+                changeContent(new UserView());
         }
 
         private void addComponent() {
@@ -177,6 +181,8 @@ public class RegisterView extends JPanel {
                                 controller.notificationIsnAvail();
                         }
                 }
+
+                backToUserView();
         }
 
         private void handleUserCreation() {
@@ -202,6 +208,19 @@ public class RegisterView extends JPanel {
                 txtPasswordConfirm.setText(null);
                 genderMale.isSelected();
                 cbRole.setSelectedIndex(0);
+        }
+
+        public void setTextUserEdit(UserModel model) {
+                txtFullname.setText(model.getFullname());
+                txtUsername.setText(model.getUsername());
+                if (model.getGender().equalsIgnoreCase("Perempuan")) {
+                        genderFemale.setSelected(true);
+                } else {
+                        genderMale.setSelected(true);
+                }
+                cbRole.setSelectedItem(model.getRole());
+
+                this.model = model;
         }
 
         public static String oldUsername;

@@ -1,7 +1,12 @@
 package ac.id.unindra.hikal_spk.user.view;
 
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.event.MouseInputAdapter;
 
 import com.formdev.flatlaf.FlatClientProperties;
 
@@ -12,6 +17,7 @@ import ac.id.unindra.hikal_spk.UI.TextField.TextFieldCustom;
 import ac.id.unindra.hikal_spk.register.view.RegisterView;
 import ac.id.unindra.hikal_spk.user.controller.UserController;
 import ac.id.unindra.hikal_spk.utils.model.TableModel.user.UserTableModel;
+import ac.id.unindra.hikal_spk.utils.model.user.UserModel;
 import net.miginfocom.swing.MigLayout;
 
 public class UserView extends JPanel {
@@ -27,6 +33,7 @@ public class UserView extends JPanel {
                 setFooter();
                 initStyle();
                 initAdd();
+                disableButton();
 
         }
 
@@ -34,7 +41,8 @@ public class UserView extends JPanel {
                 setLayout(new MigLayout("fill,wrap, insets 0 5 0 0", "[fill]", "[fill]"));
                 mainPanel = new JPanel(new MigLayout("fill,wrap, insets 10 10 0 10", "[fill,left]", "[top]"));
                 headerPanel = new JPanel(new MigLayout("fill,wrap, insets 5", "[fill,left]", "[top]"));
-                contentPanel = new JPanel(new MigLayout("fill,wrap, insets 0", "[fill, center]", "[fill,top]"));
+                contentPanel = new JPanel(
+                                new MigLayout("fill,wrap, insets 0", "[fill, center]", "[fill,top]"));
                 footerPanel = new JPanel(new MigLayout("insets 5, wrap", "[left]", "[top]"));
         }
 
@@ -53,7 +61,7 @@ public class UserView extends JPanel {
         private void initAdd() {
                 mainPanel.add(headerPanel);
                 mainPanel.add(contentPanel);
-                mainPanel.add(footerPanel);
+                mainPanel.add(footerPanel, "push");
                 add(mainPanel);
 
         }
@@ -61,9 +69,29 @@ public class UserView extends JPanel {
         private void setHeader() {
                 lbTitle = new JLabel("Pengguna");
                 txtSearch = new TextFieldCustom(
-                                "Cari nama Pengguna",
+                                "Cari Pengguna",
                                 null,
                                 true);
+
+                txtSearch.addKeyListener(new KeyListener() {
+
+                        @Override
+                        public void keyTyped(KeyEvent e) {
+
+                        }
+
+                        @Override
+                        public void keyPressed(KeyEvent e) {
+
+                        }
+
+                        @Override
+                        public void keyReleased(KeyEvent e) {
+                                userTableModel.setData(controller.searchData(txtSearch.getText()));
+                        }
+
+                });
+
                 IconCustom iconPrint = new IconCustom("svg/print.svg", 1f, null);
                 btnPrint = new ButtonCustom(
                                 "Cetak",
@@ -89,6 +117,14 @@ public class UserView extends JPanel {
         private void setContent() {
                 userTableModel.setData(controller.getData());
                 userTable = new TableCustom(userTableModel, null);
+                userTable.getTable().addMouseListener(new MouseInputAdapter() {
+                        @Override
+                        public void mouseClicked(MouseEvent e) {
+                                indexRow = userTable.getSelectedRow();
+                                enableButton();
+
+                        }
+                });
                 contentPanel.add(userTable);
         }
 
@@ -99,7 +135,11 @@ public class UserView extends JPanel {
                                 iconDelete.getIcon(),
                                 "#e7000a",
                                 (e) -> {
-
+                                        int index = userTable.getSelectedRow();
+                                        if (index != -1) {
+                                                controller.deleteData(userTableModel, indexRow);
+                                                disableButton();
+                                        }
                                 });
                 IconCustom iconChange = new IconCustom("svg/edit.svg", 1f, null);
                 btnChange = new ButtonCustom(
@@ -107,7 +147,7 @@ public class UserView extends JPanel {
                                 iconChange.getIcon(),
                                 "#a0a0a0",
                                 (e) -> {
-
+                                        updateUser();
                                 });
 
                 footerPanel.add(btnDelete, "w 140!, h 30!");
@@ -118,6 +158,7 @@ public class UserView extends JPanel {
         private void changeContent(JPanel panel) {
                 removeAll();
                 RegisterView.isFromLogin = false;
+                setLayout(new MigLayout("fill,wrap, insets 0", "[fill]", "[fill]"));
                 add(panel);
                 refreshUI();
         }
@@ -125,6 +166,20 @@ public class UserView extends JPanel {
         private void refreshUI() {
                 repaint();
                 revalidate();
+        }
+
+        private void updateUser() {
+                UserModel model = new UserModel();
+                model.setUserID(userTableModel.getSelectedIndex(indexRow).getUserID());
+                model.setUsername(userTableModel.getSelectedIndex(indexRow).getUsername());
+                model.setFullname(userTableModel.getSelectedIndex(indexRow).getFullname());
+                model.setGender(userTableModel.getSelectedIndex(indexRow).getGender());
+                model.setRole(userTableModel.getSelectedIndex(indexRow).getRole());
+                RegisterView.isUpdateUser = true;
+                RegisterView.oldUsername = userTableModel.getSelectedIndex(indexRow).getUsername();
+                RegisterView editUser = new RegisterView("Ubah");
+                changeContent(editUser);
+                editUser.setTextUserEdit(model);
         }
 
         private void disableButton() {
@@ -137,6 +192,7 @@ public class UserView extends JPanel {
                 btnChange.setEnabled(true);
         }
 
+        private int indexRow;
         private JPanel mainPanel;
         private JPanel headerPanel;
         private JPanel contentPanel;

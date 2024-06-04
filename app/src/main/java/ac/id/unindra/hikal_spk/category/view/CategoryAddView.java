@@ -5,16 +5,17 @@ import javax.swing.JPanel;
 
 import com.formdev.flatlaf.FlatClientProperties;
 
-import ac.id.unindra.hikal_spk.Main;
 import ac.id.unindra.hikal_spk.UI.Button.ButtonCustom;
 import ac.id.unindra.hikal_spk.UI.Icon.IconCustom;
 import ac.id.unindra.hikal_spk.UI.TextField.TextFieldCustom;
-import ac.id.unindra.hikal_spk.login.view.LoginView;
+import ac.id.unindra.hikal_spk.category.controller.CategoryController;
+import ac.id.unindra.hikal_spk.utils.model.category.CategoryModel;
 import net.miginfocom.swing.MigLayout;
 
 public class CategoryAddView extends JPanel {
 
-    public CategoryAddView() {
+    public CategoryAddView(String title) {
+        this.title = title;
         initComponents();
     }
 
@@ -56,28 +57,29 @@ public class CategoryAddView extends JPanel {
     }
 
     private void setContent() {
-        lbTitle = new JLabel("Tambah Kategori");
+        lbTitle = new JLabel(title);
         JLabel lbCategoryName = new JLabel("Nama kategori");
         txtCategoryName = new TextFieldCustom(
                 "Masukan Nama Kategori",
                 null,
                 true);
-        btnSave = new ButtonCustom(
-                "Simpan",
+        btnSubmit = new ButtonCustom(
+                "Submit",
                 null,
                 "#e7000a",
                 (e) -> {
-
+                    submit();
                 });
 
         contentPanel.add(lbTitle, "w 177!, center");
         contentPanel.add(lbCategoryName, "gapy 20");
         contentPanel.add(txtCategoryName, "gapy 0, h 35!");
-        contentPanel.add(btnSave, "gapy 10, h 35!");
+        contentPanel.add(btnSubmit, "gapy 10, h 35!");
     }
 
     private void changeContent(JPanel panel) {
         removeAll();
+        setLayout(new MigLayout("fill,wrap, insets 0", "[fill]", "[fill]"));
         add(panel);
         refreshUI();
     }
@@ -87,10 +89,57 @@ public class CategoryAddView extends JPanel {
         revalidate();
     }
 
-    JPanel mainPanel;
-    JPanel contentPanel;
-    TextFieldCustom txtCategoryName;
-    ButtonCustom btnSave;
-    ButtonCustom btnBack;
-    JLabel lbTitle;
+    public void setTextCategoryEdit(CategoryModel model) {
+        txtCategoryName.setText(model.getCategoryName());
+        this.model = model;
+    }
+
+    private void submit() {
+        controller.getInput(model, txtCategoryName);
+        if (controller.fieldNotEmpty(txtCategoryName)) {
+
+            if (isUpdate) {
+                handleUpdate();
+            } else {
+                handleCreation();
+            }
+
+        }
+    }
+
+    private void handleCreation() {
+        if (controller.isRegistered(model)) {
+            controller.notificationIsnAvail();
+        } else {
+            controller.createCategory(model);
+            changeContent(new CategoryView());
+        }
+
+    }
+
+    private void handleUpdate() {
+        if (oldCategoryName.equalsIgnoreCase(txtCategoryName.getText())) {
+            controller.notificationIsnChange();
+        } else {
+            if (controller.isRegistered(model)) {
+                controller.notificationIsnAvail();
+            } else {
+                controller.updateData(model);
+                changeContent(new CategoryView());
+            }
+
+        }
+    }
+
+    public static boolean isUpdate;
+    public static String oldCategoryName;
+    private JPanel mainPanel;
+    private JPanel contentPanel;
+    private TextFieldCustom txtCategoryName;
+    private ButtonCustom btnSubmit;
+    private ButtonCustom btnBack;
+    private JLabel lbTitle;
+    private String title;
+    private CategoryModel model = new CategoryModel();
+    private CategoryController controller = new CategoryController();
 }
