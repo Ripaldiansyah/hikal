@@ -13,10 +13,8 @@ import ac.id.unindra.hikal_spk.UI.Icon.IconCustom;
 import ac.id.unindra.hikal_spk.UI.Table.TableCustom;
 import ac.id.unindra.hikal_spk.UI.TextField.TextFieldCustom;
 import ac.id.unindra.hikal_spk.category.controller.CategoryController;
-import ac.id.unindra.hikal_spk.register.view.RegisterView;
 import ac.id.unindra.hikal_spk.utils.model.TableModel.category.CategoryTableModel;
 import ac.id.unindra.hikal_spk.utils.model.category.CategoryModel;
-import ac.id.unindra.hikal_spk.utils.model.user.UserModel;
 import net.miginfocom.swing.MigLayout;
 
 public class CategoryView extends JPanel {

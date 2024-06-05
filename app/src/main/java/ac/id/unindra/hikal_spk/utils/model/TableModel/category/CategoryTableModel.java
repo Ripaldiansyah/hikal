@@ -37,9 +37,9 @@ public class CategoryTableModel extends AbstractTableModel implements CategoryTa
     }
 
     @Override
-    public void setData(List<CategoryModel> user) {
+    public void setData(List<CategoryModel> category) {
         clear();
-        this.category.addAll(user);
+        this.category.addAll(category);
         fireTableDataChanged();
     }
 

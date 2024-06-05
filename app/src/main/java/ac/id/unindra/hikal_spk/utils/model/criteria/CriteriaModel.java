@@ -5,6 +5,16 @@ public class CriteriaModel {
     String criteriaName;
     String criteriaType;
     double criteriaWeight;
+    private final String[] columnHeader = {
+            "ID Kriteria",
+            "Nama Kriteria",
+            "Bobot Kriteria",
+            "Jenis Kriteria",
+    };
+
+    public String[] getColumnHeader() {
+        return columnHeader;
+    }
 
     public String getCriteraID() {
         return criteraID;

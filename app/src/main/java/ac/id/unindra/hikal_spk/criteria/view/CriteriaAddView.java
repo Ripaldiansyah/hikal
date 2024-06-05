@@ -8,17 +8,24 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.text.PlainDocument;
 
 import com.formdev.flatlaf.FlatClientProperties;
 
 import ac.id.unindra.hikal_spk.UI.Button.ButtonCustom;
 import ac.id.unindra.hikal_spk.UI.Icon.IconCustom;
 import ac.id.unindra.hikal_spk.UI.TextField.TextFieldCustom;
+import ac.id.unindra.hikal_spk.category.view.CategoryView;
+import ac.id.unindra.hikal_spk.criteria.controller.CriteriaController;
+import ac.id.unindra.hikal_spk.utils.DoubleFilter;
+import ac.id.unindra.hikal_spk.utils.model.category.CategoryModel;
+import ac.id.unindra.hikal_spk.utils.model.criteria.CriteriaModel;
 import net.miginfocom.swing.MigLayout;
 
 public class CriteriaAddView extends JPanel {
 
-    public CriteriaAddView() {
+    public CriteriaAddView(String title) {
+        this.title = title;
         initComponents();
     }
 
@@ -79,7 +86,7 @@ public class CriteriaAddView extends JPanel {
     }
 
     private void setContent() {
-        lbTitle = new JLabel("Tambah Kriteria");
+        lbTitle = new JLabel(title);
         JLabel lbCriteriaName = new JLabel("Nama Kriteria");
         JLabel lbCriteriaWeight = new JLabel("Bobot Kriteria");
         JLabel lbCriteriaCriteria = new JLabel("Kategori Kriteria");
@@ -91,13 +98,15 @@ public class CriteriaAddView extends JPanel {
                 "Masukan Bobot Kriteria",
                 null,
                 true);
+        PlainDocument doc = (PlainDocument) txtCriteriaWeight.getDocument();
+        doc.setDocumentFilter(new DoubleFilter());
         cbCriteria = new JComboBox<>(criteria);
-        btnSave = new ButtonCustom(
-                "Simpan",
+        btnSubmit = new ButtonCustom(
+                "Submit",
                 null,
                 "#e7000a",
                 (e) -> {
-
+                    submit();
                 });
 
         contentPanel.add(lbTitle, "w 177!, center");
@@ -107,7 +116,54 @@ public class CriteriaAddView extends JPanel {
         contentPanel.add(txtCriteriaWeight, "gapy 0, h 35!");
         contentPanel.add(lbCriteriaCriteria, "gapy 10");
         contentPanel.add(cbCriteria, "gapy 0, h 35!");
-        contentPanel.add(btnSave, "gapy 10, h 35!");
+        contentPanel.add(btnSubmit, "gapy 10, h 35!");
+    }
+
+    private void submit() {
+        controller.getInput(model, txtCriteriaName, txtCriteriaWeight, cbCriteria);
+        if (controller.fieldNotEmpty(txtCriteriaName, txtCriteriaWeight)) {
+            if (isUpdate) {
+                handleUpdate();
+            } else {
+                handleCreation();
+            }
+
+        }
+    }
+
+    private void handleCreation() {
+        if (controller.isRegistered(model)) {
+            controller.notificationIsnAvail();
+        } else {
+            controller.createCategory(model);
+            changeContent(new CriteriaView());
+        }
+    }
+
+    private void handleUpdate() {
+        if (oldCriteriaName.equalsIgnoreCase(txtCriteriaName.getText())) {
+            updateCriteia();
+        } else {
+            if (controller.isRegistered(model)) {
+                controller.notificationIsnAvail();
+            } else {
+                updateCriteia();
+            }
+
+        }
+    }
+
+    private void updateCriteia() {
+        controller.updateData(model);
+        changeContent(new CriteriaView());
+    }
+
+    public void setTextCriteriaEdit(CriteriaModel model) {
+        double criteriaWeight = model.getCriteriaWeight();
+        txtCriteriaName.setText(model.getCriteriaName());
+        txtCriteriaWeight.setText(String.valueOf(criteriaWeight));
+        cbCriteria.setSelectedItem(model.getCriteriaType());
+        this.model = model;
     }
 
     private void changeContent(JPanel panel) {
@@ -122,13 +178,18 @@ public class CriteriaAddView extends JPanel {
         revalidate();
     }
 
-    JPanel mainPanel;
-    JPanel contentPanel;
-    TextFieldCustom txtCriteriaName;
-    TextFieldCustom txtCriteriaWeight;
-    ButtonCustom btnSave;
-    ButtonCustom btnBack;
-    JComboBox<String> cbCriteria;
-    String[] criteria = { "Benefit", "Cost" };
-    JLabel lbTitle;
+    public static boolean isUpdate;
+    public static String oldCriteriaName;
+    private JPanel mainPanel;
+    private JPanel contentPanel;
+    private TextFieldCustom txtCriteriaName;
+    private TextFieldCustom txtCriteriaWeight;
+    private ButtonCustom btnSubmit;
+    private ButtonCustom btnBack;
+    private JComboBox<String> cbCriteria;
+    private String[] criteria = { "Benefit", "Cost" };
+    private JLabel lbTitle;
+    private String title;
+    private CriteriaModel model = new CriteriaModel();
+    private CriteriaController controller = new CriteriaController();
 }

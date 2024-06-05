@@ -180,7 +180,7 @@ public class UserDAO implements UserService {
     @Override
     public List<UserModel> getUser() {
         PreparedStatement stat = null;
-        List users = new ArrayList();
+        List<UserModel> users = new ArrayList<>();
         ResultSet rs = null;
         String sql = "SELECT * FROM users ";
 
@@ -223,7 +223,7 @@ public class UserDAO implements UserService {
     @Override
     public List<UserModel> searchUser(String key) {
         PreparedStatement stat = null;
-        List users = new ArrayList();
+        List<UserModel> users = new ArrayList<>();
         ResultSet rs = null;
         String sql = "SELECT * FROM users " +
                 "WHERE user_id LIKE '%" + key + "%' " +

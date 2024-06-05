@@ -12,6 +12,7 @@ import ac.id.unindra.hikal_spk.UI.Button.ButtonCustom;
 import ac.id.unindra.hikal_spk.UI.Icon.IconCustom;
 import ac.id.unindra.hikal_spk.alternative.view.AlternativeView;
 import ac.id.unindra.hikal_spk.category.view.CategoryView;
+import ac.id.unindra.hikal_spk.criteria.view.CriteriaView;
 import ac.id.unindra.hikal_spk.menu.controller.MenuController;
 import ac.id.unindra.hikal_spk.user.view.UserView;
 import net.miginfocom.swing.MigLayout;
@@ -70,7 +71,7 @@ public class MenuView extends JPanel {
                 });
 
         // add first Content
-        changeContent(new AlternativeView());
+        changeContent(new CriteriaView());
         changeMenuDisplay();
         mainPanel.add(contentPanel, "grow, push");
         add(mainPanel, "grow");

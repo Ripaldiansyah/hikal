@@ -77,10 +77,11 @@ public class CategoryDAO implements CategoryService {
     @Override
     public void updateCategory(CategoryModel model) {
         PreparedStatement stat = null;
-        String sql = "UPDATE category SET category_name=?";
+        String sql = "UPDATE category SET category_name=? WHERE category_id=?";
         try {
             stat = conn.prepareStatement(sql);
             stat.setString(1, model.getCategoryName());
+            stat.setString(2, model.getCategoryID());
             stat.executeUpdate();
 
         } catch (Exception e) {
@@ -99,7 +100,7 @@ public class CategoryDAO implements CategoryService {
     @Override
     public void deleteCategory(CategoryModel model) {
         PreparedStatement stat = null;
-        String sql = "DELETE From category where categoryID=?";
+        String sql = "DELETE From category where category_id=?";
         try {
             stat = conn.prepareStatement(sql);
             stat.setString(1, model.getCategoryID());
@@ -120,7 +121,7 @@ public class CategoryDAO implements CategoryService {
     @Override
     public List<CategoryModel> getCategory() {
         PreparedStatement stat = null;
-        List categoryList = new ArrayList();
+        List<CategoryModel> categoryList = new ArrayList<>();
         ResultSet rs = null;
         String sql = "SELECT * FROM category ";
 
@@ -129,7 +130,7 @@ public class CategoryDAO implements CategoryService {
             rs = stat.executeQuery();
             while (rs.next()) {
                 CategoryModel category = new CategoryModel();
-                category.setCategoryID(rs.getString("categoryID"));
+                category.setCategoryID(rs.getString("category_id"));
                 category.setCategoryName(rs.getString("category_name"));
 
                 categoryList.add(category);
@@ -161,10 +162,10 @@ public class CategoryDAO implements CategoryService {
     @Override
     public List<CategoryModel> searchCategory(String key) {
         PreparedStatement stat = null;
-        List categoryList = new ArrayList();
+        List<CategoryModel> categoryList = new ArrayList<>();
         ResultSet rs = null;
         String sql = "SELECT * FROM category " +
-                "WHERE categoryID LIKE '%" + key + "%' " +
+                "WHERE category_id LIKE '%" + key + "%' " +
                 "OR category_name LIKE '%" + key + "%' ";
 
         try {
@@ -173,7 +174,7 @@ public class CategoryDAO implements CategoryService {
 
             while (rs.next()) {
                 CategoryModel category = new CategoryModel();
-                category.setCategoryID(rs.getString("categoryID"));
+                category.setCategoryID(rs.getString("category_id"));
                 category.setCategoryName(rs.getString("category_name"));
                 categoryList.add(category);
             }

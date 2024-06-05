@@ -22,7 +22,7 @@ public class AlternativeDAO implements AlternativeService {
     public boolean isRegistered(AlternativeModel alternative) {
         PreparedStatement stat = null;
         ResultSet rs = null;
-        String sql = "SELECT * FROM alternative WHERE alternative_name = ? AND categoryID = ?";
+        String sql = "SELECT * FROM alternative WHERE alternative_name = ? AND category_id = ?";
 
         try {
             stat = conn.prepareStatement(sql);
@@ -32,7 +32,7 @@ public class AlternativeDAO implements AlternativeService {
             if (!rs.next()) {
                 return false;
             } else {
-                String id = rs.getString("AlternativeID");
+                String id = rs.getString("alternative_id");
                 alternative.setAlternativeID(id);
             }
         } catch (Exception e) {
@@ -60,7 +60,7 @@ public class AlternativeDAO implements AlternativeService {
     @Override
     public void createAlternative(AlternativeModel alternative) {
         PreparedStatement stat = null;
-        String sql = "INSERT INTO alternative (categoryID ,alternative_name) VALUES (?,?)";
+        String sql = "INSERT INTO alternative (category_id ,alternative_name) VALUES (?,?)";
         try {
             stat = conn.prepareStatement(sql);
             stat.setString(1, alternative.getCategory().getCategoryID());
@@ -83,7 +83,7 @@ public class AlternativeDAO implements AlternativeService {
     @Override
     public void updateAlternative(AlternativeModel alternative) {
         PreparedStatement stat = null;
-        String sql = "UPDATE alternative SET categoryID=?, alternative_name=? WHERE alternativeID=?";
+        String sql = "UPDATE alternative SET category_id=?, alternative_name=? WHERE alternative_id=?";
         try {
             stat = conn.prepareStatement(sql);
             stat.setString(1, alternative.getCategory().getCategoryID());
@@ -107,7 +107,7 @@ public class AlternativeDAO implements AlternativeService {
     @Override
     public void deleteAlternative(AlternativeModel alternative) {
         PreparedStatement stat = null;
-        String sql = "DELETE From alternative where alternativeID=?";
+        String sql = "DELETE From alternative where alternative_id=?";
         try {
             stat = conn.prepareStatement(sql);
             stat.setString(1, alternative.getAlternativeID());
@@ -128,15 +128,15 @@ public class AlternativeDAO implements AlternativeService {
     @Override
     public List<AlternativeModel> getAlternative() {
         PreparedStatement stat = null;
-        List alternativeList = new ArrayList();
+        List<AlternativeModel> alternativeList = new ArrayList<>();
         ResultSet rs = null;
-        String sql = "SELECT alt.alternativeID, "
-                + "alt.categoryID, "
+        String sql = "SELECT alt.alternative_id, "
+                + "alt.category_id, "
                 + "alt.alternative_name, "
                 + "ct.category_name "
                 + "FROM alternative alt "
                 + "INNER JOIN category ct "
-                + "ON alt.categoryID = ct.categoryID";
+                + "ON alt.category_id = ct.category_id";
 
         try {
             stat = conn.prepareStatement(sql);
@@ -144,8 +144,8 @@ public class AlternativeDAO implements AlternativeService {
             while (rs.next()) {
                 AlternativeModel alternative = new AlternativeModel();
                 CategoryModel category = new CategoryModel();
-                alternative.setAlternativeID(rs.getString("alternativeID"));
-                category.setCategoryID(rs.getString("categoryID"));
+                alternative.setAlternativeID(rs.getString("alternative_id"));
+                category.setCategoryID(rs.getString("category_id"));
                 category.setCategoryName(rs.getString("category_name"));
                 alternative.setAlternativeName(rs.getString("alternative_name"));
                 alternative.setCategory(category);
@@ -178,16 +178,16 @@ public class AlternativeDAO implements AlternativeService {
     @Override
     public List<AlternativeModel> searchAlternative(String key) {
         PreparedStatement stat = null;
-        List alternativeList = new ArrayList();
+        List<AlternativeModel> alternativeList = new ArrayList<>();
         ResultSet rs = null;
-        String sql = "SELECT alt.alternativeID, "
-                + "alt.categoryID, "
+        String sql = "SELECT alt.alternative_id, "
+                + "alt.category_id, "
                 + "alt.alternative_name, "
                 + "ct.category_name "
                 + "FROM alternative alt "
                 + "INNER JOIN category ct "
-                + "ON alt.categoryID = ct.categoryID "
-                + "WHERE (alternativeID LIKE '%" + key + "%') "
+                + "ON alt.category_id = ct.category_id "
+                + "WHERE (alternative_id LIKE '%" + key + "%') "
                 + "OR (alternative_name LIKE '%" + key + "%') "
                 + "OR (ct.category_name LIKE '%" + key + "%') ";
         try {
@@ -197,9 +197,9 @@ public class AlternativeDAO implements AlternativeService {
             while (rs.next()) {
                 AlternativeModel alternative = new AlternativeModel();
                 CategoryModel category = new CategoryModel();
-                alternative.setAlternativeID(rs.getString("alternativeID"));
+                alternative.setAlternativeID(rs.getString("alternative_id"));
                 alternative.setAlternativeName(rs.getString("alternative_name"));
-                category.setCategoryID(rs.getString("categoryID"));
+                category.setCategoryID(rs.getString("category_id"));
                 category.setCategoryName(rs.getString("category_name"));
                 alternative.setCategory(category);
                 alternativeList.add(alternative);
@@ -270,14 +270,14 @@ public class AlternativeDAO implements AlternativeService {
     public void setIDCategory(AlternativeModel alternative) {
         PreparedStatement stat = null;
         ResultSet rs = null;
-        String sql = "SELECT categoryID FROM category WHERE category_name = ?";
+        String sql = "SELECT category_id FROM category WHERE category_name = ?";
         try {
             stat = conn.prepareStatement(sql);
             stat.setString(1, alternative.getCategory().getCategoryName());
             rs = stat.executeQuery();
             if (rs.next()) {
                 CategoryModel categoryModel = new CategoryModel();
-                categoryModel.setCategoryID(rs.getString("categoryID"));
+                categoryModel.setCategoryID(rs.getString("category_id"));
                 alternative.setCategory(categoryModel);
             }
         } catch (Exception e) {

@@ -5,7 +5,7 @@ import java.util.List;
 import ac.id.unindra.hikal_spk.utils.model.alternative.AlternativeModel;
 
 public interface AlternativeTableService {
-    void setData(List<AlternativeModel> user);
+    void setData(List<AlternativeModel> alternative);
 
     void removeData(int index);
 

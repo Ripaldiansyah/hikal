@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface CategoryTableService {
 
-    void setData(List<CategoryModel> user);
+    void setData(List<CategoryModel> category);
 
     void removeData(int index);
 
