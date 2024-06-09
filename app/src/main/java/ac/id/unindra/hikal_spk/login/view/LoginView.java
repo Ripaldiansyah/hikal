@@ -8,7 +8,7 @@ import ac.id.unindra.hikal_spk.login.controller.LoginController;
 import ac.id.unindra.hikal_spk.menu.view.MenuView;
 import ac.id.unindra.hikal_spk.register.view.RegisterView;
 import ac.id.unindra.hikal_spk.utils.MD5;
-import ac.id.unindra.hikal_spk.utils.model.user.UserModel;
+import ac.id.unindra.hikal_spk.utils.model.UserModel;
 
 import com.formdev.flatlaf.FlatClientProperties;
 import net.miginfocom.swing.MigLayout;
@@ -49,6 +49,8 @@ public class LoginView extends JPanel {
                                 "#a8a8a8",
                                 (e) -> {
                                         RegisterView.isFromLogin = true;
+                                        RegisterView.isUpdateUser = false;
+                                        RegisterView.isFromSetting = false;
                                         Main.content.loginRegisterPanel(new RegisterView("Register"));
                                 });
 

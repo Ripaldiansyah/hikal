@@ -1,8 +1,5 @@
 package ac.id.unindra.hikal_spk.menu.view;
 
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
@@ -10,11 +7,9 @@ import com.formdev.flatlaf.FlatClientProperties;
 
 import ac.id.unindra.hikal_spk.UI.Button.ButtonCustom;
 import ac.id.unindra.hikal_spk.UI.Icon.IconCustom;
-import ac.id.unindra.hikal_spk.alternative.view.AlternativeView;
-import ac.id.unindra.hikal_spk.category.view.CategoryView;
-import ac.id.unindra.hikal_spk.criteria.view.CriteriaView;
+import ac.id.unindra.hikal_spk.dashboard.view.DashboardView;
 import ac.id.unindra.hikal_spk.menu.controller.MenuController;
-import ac.id.unindra.hikal_spk.user.view.UserView;
+import ac.id.unindra.hikal_spk.utils.UserToken;
 import net.miginfocom.swing.MigLayout;
 import java.awt.event.ActionListener;
 
@@ -22,38 +17,15 @@ public class MenuView extends JPanel {
 
     public MenuView() {
         initComponent();
+        isMenuVisible = true;
+        isVisible = true;
+        initMenu();
+        mainPanel.add(menuPanel, "dock west");
     }
 
     private void initComponent() {
         initLayout();
         initStyle();
-        contentPanel.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                mainPanel.remove(menuPanel);
-                menuPanel.removeAll();
-                isMenuVisible = false;
-                changeMenuDisplay();
-                refreshUI();
-            }
-
-            @Override
-            public void mouseClicked(MouseEvent e) {
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-            }
-
-        });
         IconCustom iconMenu = new IconCustom("svg/menu.svg", 1f, null);
         btnMenu = new ButtonCustom(
                 null,
@@ -71,11 +43,25 @@ public class MenuView extends JPanel {
                 });
 
         // add first Content
-        changeContent(new CriteriaView());
+        // test();
+        changeContent(new DashboardView());
         changeMenuDisplay();
         mainPanel.add(contentPanel, "grow, push");
         add(mainPanel, "grow");
     }
+
+    // void test() {
+    // test1.add("alternatif");
+    // test1.add("alternatif");
+    // test1.add("alternatif");
+
+    // test2.add("kriteria");
+    // test2.add("kriteria");
+
+    // }
+
+    // List<String> test1 = new ArrayList<>();
+    // List<String> test2 = new ArrayList<>();
 
     public static void changeContent(JPanel panel) {
         contentPanel.removeAll();
@@ -86,7 +72,7 @@ public class MenuView extends JPanel {
     private void changeMenuDisplay() {
         menuPanel.add(btnMenu, "north, gapy 30");
         initMenu();
-        mainPanel.add(menuPanel, " w 50!,dock west");
+        mainPanel.add(menuPanel, "dock west");
     }
 
     private void initLayout() {
@@ -131,8 +117,8 @@ public class MenuView extends JPanel {
                 e -> changeContent(controller.alternative()),
                 e -> changeContent(controller.criteria()),
                 e -> changeContent(controller.spk()),
-                e -> System.out.println("Button 5 clicked"),
-                e -> System.out.println("Button 6 clicked"),
+                e -> changeContent(controller.report()),
+                e -> changeContent(controller.setting()),
                 e -> controller.logout()
         };
 
@@ -146,17 +132,17 @@ public class MenuView extends JPanel {
         }
 
         for (int i = 0; i < title.length; i++) {
-            if (isAdmin) {
-                btnMenuArray[i] = new ButtonCustom(isMenuVisible ? title[i] : null, icons[i], "#d80009", actions[i]);
+            if (UserToken.role.equalsIgnoreCase("admin")) {
+                btnMenuArray[i] = new ButtonCustom(title[i], icons[i], "#d80009", actions[i]);
                 if (isMenuVisible) {
                     btnMenuArray[i].setHorizontalAlignment(SwingConstants.LEFT);
                     btnMenuArray[i].setBorder(new EmptyBorder(0, 13, 0, 0));
                 }
 
                 if (i == 0) {
-                    menuPanel.add(btnMenuArray[i].getButton(), isMenuVisible ? "gapy 56, h 50!" : "gapy 100, h 30!");
+                    menuPanel.add(btnMenuArray[i].getButton(), "gapy 56, h 50!");
                 } else {
-                    menuPanel.add(btnMenuArray[i].getButton(), isMenuVisible ? "gapy 0, h 50!" : "gapy 20, h 30!");
+                    menuPanel.add(btnMenuArray[i].getButton(), "gapy 0, h 50!");
                 }
             } else {
                 boolean isUser = i == 1 || i == 2 || i == 3 || i == 4 || i == 6;
@@ -205,5 +191,5 @@ public class MenuView extends JPanel {
     boolean isVisible = false;
     boolean isMenuVisible = false;
     MenuController controller = new MenuController();
-    public static boolean isAdmin = false;
+
 }

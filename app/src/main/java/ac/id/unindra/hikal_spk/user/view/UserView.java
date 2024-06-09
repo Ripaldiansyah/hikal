@@ -15,9 +15,10 @@ import ac.id.unindra.hikal_spk.UI.Icon.IconCustom;
 import ac.id.unindra.hikal_spk.UI.Table.TableCustom;
 import ac.id.unindra.hikal_spk.UI.TextField.TextFieldCustom;
 import ac.id.unindra.hikal_spk.register.view.RegisterView;
+import ac.id.unindra.hikal_spk.report.controller.ReportController;
 import ac.id.unindra.hikal_spk.user.controller.UserController;
-import ac.id.unindra.hikal_spk.utils.model.TableModel.user.UserTableModel;
-import ac.id.unindra.hikal_spk.utils.model.user.UserModel;
+import ac.id.unindra.hikal_spk.utils.model.UserModel;
+import ac.id.unindra.hikal_spk.utils.model.TableModel.UserTableModel;
 import net.miginfocom.swing.MigLayout;
 
 public class UserView extends JPanel {
@@ -98,7 +99,8 @@ public class UserView extends JPanel {
                                 iconPrint.getIcon(),
                                 "#a0a0a0",
                                 (e) -> {
-
+                                        ReportController reportController = new ReportController();
+                                        reportController.ReportUser();
                                 });
                 IconCustom iconAdd = new IconCustom("svg/add.svg", 1f, null);
                 btnAdd = new ButtonCustom(
@@ -175,7 +177,9 @@ public class UserView extends JPanel {
                 model.setFullname(userTableModel.getSelectedIndex(indexRow).getFullname());
                 model.setGender(userTableModel.getSelectedIndex(indexRow).getGender());
                 model.setRole(userTableModel.getSelectedIndex(indexRow).getRole());
+                RegisterView.isFromLogin = false;
                 RegisterView.isUpdateUser = true;
+                RegisterView.isFromSetting = false;
                 RegisterView.oldUsername = userTableModel.getSelectedIndex(indexRow).getUsername();
                 RegisterView editUser = new RegisterView("Ubah");
                 changeContent(editUser);

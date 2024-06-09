@@ -15,9 +15,10 @@ import ac.id.unindra.hikal_spk.UI.Icon.IconCustom;
 import ac.id.unindra.hikal_spk.UI.PasswordField.PasswordFieldCustom;
 import ac.id.unindra.hikal_spk.UI.TextField.TextFieldCustom;
 import ac.id.unindra.hikal_spk.login.view.LoginView;
+import ac.id.unindra.hikal_spk.menu.view.MenuView;
 import ac.id.unindra.hikal_spk.register.controller.RegisterController;
 import ac.id.unindra.hikal_spk.user.view.UserView;
-import ac.id.unindra.hikal_spk.utils.model.user.UserModel;
+import ac.id.unindra.hikal_spk.utils.model.UserModel;
 
 public class RegisterView extends JPanel {
 
@@ -65,7 +66,9 @@ public class RegisterView extends JPanel {
                                         if (isFromLogin) {
                                                 Main.content.loginRegisterPanel(new LoginView());
                                         } else {
-                                                backToUserView();
+                                                if (!isFromSetting) {
+                                                        backToUserView(new UserView());
+                                                }
                                         }
 
                                 });
@@ -100,14 +103,18 @@ public class RegisterView extends JPanel {
 
         }
 
-        private void backToUserView() {
+        private void backToUserView(JPanel panel) {
                 setLayout(new MigLayout("fill,wrap, insets 0 5 0 0", "[fill]",
                                 "[fill]"));
-                changeContent(new UserView());
+                changeContent(panel);
         }
 
         private void addComponent() {
                 add(btnBack);
+                if (isFromSetting) {
+                        btnBack.setEnabled(false);
+                        btnBack.setVisible(false);
+                }
                 panel.add(lbTitle, "w 90!, center");
                 panel.add(new JLabel("Nama Lengkap"), "gapy 8");
                 panel.add(txtFullname.getTextField());
@@ -115,11 +122,14 @@ public class RegisterView extends JPanel {
                 panel.add(gender());
                 panel.add(new JLabel("Nama Pengguna"), "gapy 8");
                 panel.add(txtUsername.getTextField());
+                if (isFromSetting) {
+                        txtUsername.setEnabled(false);
+                }
                 panel.add(new JLabel("Kata Sandi"), "gapy 8");
                 panel.add(txtPassword.getPasswordField());
                 panel.add(new JLabel("Kata Sandi Konfirmasi"), "gapy 8");
                 panel.add(txtPasswordConfirm.getPasswordField());
-                if (!isFromLogin) {
+                if (!isFromLogin && !isFromSetting) {
                         panel.add(new JLabel("Pilih Role"), "gapy 8");
                         panel.add(cbRole, "h 40!");
                 }
@@ -133,6 +143,7 @@ public class RegisterView extends JPanel {
 
         private void changeContent(JPanel panel) {
                 removeAll();
+                setLayout(new MigLayout("fill,wrap, insets 0", "[fill]", "[fill]"));
                 add(panel);
                 refreshUI();
         }
@@ -182,7 +193,12 @@ public class RegisterView extends JPanel {
                         }
                 }
 
-                backToUserView();
+                if (isFromSetting) {
+
+                } else {
+                        backToUserView(new UserView());
+                }
+
         }
 
         private void handleUserCreation() {
@@ -243,6 +259,6 @@ public class RegisterView extends JPanel {
         private UserModel model = new UserModel();
         TextFieldCustom[] txtComponent;
         PasswordFieldCustom[] txtPasswordComponent;
-
+        public static boolean isFromSetting = false;
         private RegisterController controller = new RegisterController();
 }

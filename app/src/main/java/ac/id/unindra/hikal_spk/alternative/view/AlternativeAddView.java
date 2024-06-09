@@ -16,8 +16,8 @@ import ac.id.unindra.hikal_spk.UI.Icon.IconCustom;
 import ac.id.unindra.hikal_spk.UI.TextField.TextFieldCustom;
 import ac.id.unindra.hikal_spk.alternative.controller.AlternativeController;
 import ac.id.unindra.hikal_spk.category.view.CategoryView;
-import ac.id.unindra.hikal_spk.utils.model.alternative.AlternativeModel;
-import ac.id.unindra.hikal_spk.utils.model.category.CategoryModel;
+import ac.id.unindra.hikal_spk.utils.model.AlternativeModel;
+import ac.id.unindra.hikal_spk.utils.model.CategoryModel;
 import net.miginfocom.swing.MigLayout;
 
 public class AlternativeAddView extends JPanel {

@@ -1,7 +1,7 @@
 package ac.id.unindra.hikal_spk.login.controller;
 
-import ac.id.unindra.hikal_spk.utils.dao.user.UserDAO;
-import ac.id.unindra.hikal_spk.utils.model.user.UserModel;
+import ac.id.unindra.hikal_spk.utils.dao.UserDAO;
+import ac.id.unindra.hikal_spk.utils.model.UserModel;
 
 public class LoginController {
     private UserDAO login;

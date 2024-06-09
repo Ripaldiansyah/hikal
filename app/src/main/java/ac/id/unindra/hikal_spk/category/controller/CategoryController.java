@@ -1,9 +1,10 @@
 package ac.id.unindra.hikal_spk.category.controller;
 
 import ac.id.unindra.hikal_spk.UI.TextField.TextFieldCustom;
-import ac.id.unindra.hikal_spk.utils.dao.category.CategoryDAO;
-import ac.id.unindra.hikal_spk.utils.model.TableModel.category.CategoryTableModel;
-import ac.id.unindra.hikal_spk.utils.model.category.CategoryModel;
+import ac.id.unindra.hikal_spk.utils.dao.CategoryDAO;
+import ac.id.unindra.hikal_spk.utils.model.CategoryModel;
+import ac.id.unindra.hikal_spk.utils.model.TableModel.CategoryTableModel;
+
 import java.util.List;
 import javax.swing.JOptionPane;
 

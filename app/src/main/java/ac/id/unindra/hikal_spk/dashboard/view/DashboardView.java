@@ -9,6 +9,8 @@ import com.formdev.flatlaf.FlatClientProperties;
 import java.awt.Font;
 
 import ac.id.unindra.hikal_spk.UI.Icon.IconCustom;
+import ac.id.unindra.hikal_spk.dashboard.controller.DashboardController;
+import ac.id.unindra.hikal_spk.utils.UserToken;
 import net.miginfocom.swing.MigLayout;
 
 public class DashboardView extends JPanel {
@@ -70,7 +72,7 @@ public class DashboardView extends JPanel {
 
         private void setHeader() {
                 lbTitle = new JLabel("Dashboard");
-                lbName = new JLabel("Hai, " + fullname);
+                lbName = new JLabel("Hai, " + UserToken.fullname);
                 headerPanel.add(lbTitle);
                 headerPanel.add(lbName);
                 headerPanel.add(headerCard(), "gapy 20");
@@ -142,11 +144,11 @@ public class DashboardView extends JPanel {
                                 + "background:#f1f1fb");
 
                 String[] title = {
-                                "400",
-                                "100",
-                                "200",
-                                "300",
-                                "170"
+                                controller.getCountUser(),
+                                controller.getCountCategory(),
+                                controller.getCountCriteria(),
+                                controller.getCountAlternative(),
+                                controller.getCountSpk()
                 };
                 String[] description = {
                                 "Pengguna Terdaftar",
@@ -189,6 +191,6 @@ public class DashboardView extends JPanel {
         JPanel footerPanel;
         JLabel lbTitle;
         JLabel lbName;
-        public static String fullname;
+        DashboardController controller = new DashboardController();
 
 }

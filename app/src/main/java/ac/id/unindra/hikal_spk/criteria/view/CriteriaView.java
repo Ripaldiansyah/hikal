@@ -13,9 +13,10 @@ import ac.id.unindra.hikal_spk.UI.Table.TableCustom;
 import ac.id.unindra.hikal_spk.UI.TextField.TextFieldCustom;
 import ac.id.unindra.hikal_spk.category.view.CategoryAddView;
 import ac.id.unindra.hikal_spk.criteria.controller.CriteriaController;
-import ac.id.unindra.hikal_spk.utils.model.TableModel.criteria.CriteriaTableModel;
-import ac.id.unindra.hikal_spk.utils.model.category.CategoryModel;
-import ac.id.unindra.hikal_spk.utils.model.criteria.CriteriaModel;
+import ac.id.unindra.hikal_spk.report.controller.ReportController;
+import ac.id.unindra.hikal_spk.utils.model.CategoryModel;
+import ac.id.unindra.hikal_spk.utils.model.CriteriaModel;
+import ac.id.unindra.hikal_spk.utils.model.TableModel.CriteriaTableModel;
 import net.miginfocom.swing.MigLayout;
 
 public class CriteriaView extends JPanel {
@@ -91,7 +92,8 @@ public class CriteriaView extends JPanel {
                                 iconPrint.getIcon(),
                                 "#a0a0a0",
                                 (e) -> {
-
+                                        ReportController reportController = new ReportController();
+                                        reportController.ReportCriteria();
                                 });
                 IconCustom iconAdd = new IconCustom("svg/add.svg", 1f, null);
                 btnAdd = new ButtonCustom(

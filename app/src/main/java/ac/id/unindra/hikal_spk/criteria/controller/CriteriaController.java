@@ -6,11 +6,11 @@ import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 
 import ac.id.unindra.hikal_spk.UI.TextField.TextFieldCustom;
-import ac.id.unindra.hikal_spk.utils.dao.criteria.CriteriaDAO;
-import ac.id.unindra.hikal_spk.utils.model.TableModel.category.CategoryTableModel;
-import ac.id.unindra.hikal_spk.utils.model.TableModel.criteria.CriteriaTableModel;
-import ac.id.unindra.hikal_spk.utils.model.category.CategoryModel;
-import ac.id.unindra.hikal_spk.utils.model.criteria.CriteriaModel;
+import ac.id.unindra.hikal_spk.utils.dao.CriteriaDAO;
+import ac.id.unindra.hikal_spk.utils.model.CategoryModel;
+import ac.id.unindra.hikal_spk.utils.model.CriteriaModel;
+import ac.id.unindra.hikal_spk.utils.model.TableModel.CategoryTableModel;
+import ac.id.unindra.hikal_spk.utils.model.TableModel.CriteriaTableModel;
 
 public class CriteriaController {
 

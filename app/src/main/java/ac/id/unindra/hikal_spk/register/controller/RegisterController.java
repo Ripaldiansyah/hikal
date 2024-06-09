@@ -7,8 +7,8 @@ import javax.swing.JRadioButton;
 import ac.id.unindra.hikal_spk.UI.PasswordField.PasswordFieldCustom;
 import ac.id.unindra.hikal_spk.UI.TextField.TextFieldCustom;
 import ac.id.unindra.hikal_spk.utils.MD5;
-import ac.id.unindra.hikal_spk.utils.dao.user.UserDAO;
-import ac.id.unindra.hikal_spk.utils.model.user.UserModel;
+import ac.id.unindra.hikal_spk.utils.dao.UserDAO;
+import ac.id.unindra.hikal_spk.utils.model.UserModel;
 
 public class RegisterController {
     private UserDAO user;

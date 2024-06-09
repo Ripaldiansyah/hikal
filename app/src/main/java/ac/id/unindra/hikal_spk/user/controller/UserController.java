@@ -2,9 +2,10 @@ package ac.id.unindra.hikal_spk.user.controller;
 
 import java.util.List;
 import javax.swing.JOptionPane;
-import ac.id.unindra.hikal_spk.utils.dao.user.UserDAO;
-import ac.id.unindra.hikal_spk.utils.model.TableModel.user.UserTableModel;
-import ac.id.unindra.hikal_spk.utils.model.user.UserModel;
+
+import ac.id.unindra.hikal_spk.utils.dao.UserDAO;
+import ac.id.unindra.hikal_spk.utils.model.UserModel;
+import ac.id.unindra.hikal_spk.utils.model.TableModel.UserTableModel;
 
 public class UserController {
 

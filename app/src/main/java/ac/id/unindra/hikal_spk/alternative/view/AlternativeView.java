@@ -13,13 +13,10 @@ import ac.id.unindra.hikal_spk.UI.Icon.IconCustom;
 import ac.id.unindra.hikal_spk.UI.Table.TableCustom;
 import ac.id.unindra.hikal_spk.UI.TextField.TextFieldCustom;
 import ac.id.unindra.hikal_spk.alternative.controller.AlternativeController;
-import ac.id.unindra.hikal_spk.category.controller.CategoryController;
-import ac.id.unindra.hikal_spk.register.view.RegisterView;
-import ac.id.unindra.hikal_spk.utils.model.TableModel.alternative.AlternativeTableModel;
-import ac.id.unindra.hikal_spk.utils.model.TableModel.category.CategoryTableModel;
-import ac.id.unindra.hikal_spk.utils.model.alternative.AlternativeModel;
-import ac.id.unindra.hikal_spk.utils.model.category.CategoryModel;
-import ac.id.unindra.hikal_spk.utils.model.user.UserModel;
+import ac.id.unindra.hikal_spk.report.controller.ReportController;
+import ac.id.unindra.hikal_spk.utils.model.AlternativeModel;
+import ac.id.unindra.hikal_spk.utils.model.CategoryModel;
+import ac.id.unindra.hikal_spk.utils.model.TableModel.AlternativeTableModel;
 import net.miginfocom.swing.MigLayout;
 
 public class AlternativeView extends JPanel {
@@ -96,7 +93,8 @@ public class AlternativeView extends JPanel {
                                 iconPrint.getIcon(),
                                 "#a0a0a0",
                                 (e) -> {
-
+                                        ReportController reportController = new ReportController();
+                                        reportController.ReportAlternative();
                                 });
                 IconCustom iconAdd = new IconCustom("svg/add.svg", 1f, null);
                 btnAdd = new ButtonCustom(

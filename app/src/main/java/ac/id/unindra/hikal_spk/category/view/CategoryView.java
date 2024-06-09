@@ -13,8 +13,9 @@ import ac.id.unindra.hikal_spk.UI.Icon.IconCustom;
 import ac.id.unindra.hikal_spk.UI.Table.TableCustom;
 import ac.id.unindra.hikal_spk.UI.TextField.TextFieldCustom;
 import ac.id.unindra.hikal_spk.category.controller.CategoryController;
-import ac.id.unindra.hikal_spk.utils.model.TableModel.category.CategoryTableModel;
-import ac.id.unindra.hikal_spk.utils.model.category.CategoryModel;
+import ac.id.unindra.hikal_spk.report.controller.ReportController;
+import ac.id.unindra.hikal_spk.utils.model.CategoryModel;
+import ac.id.unindra.hikal_spk.utils.model.TableModel.CategoryTableModel;
 import net.miginfocom.swing.MigLayout;
 
 public class CategoryView extends JPanel {
@@ -91,7 +92,8 @@ public class CategoryView extends JPanel {
                                 iconPrint.getIcon(),
                                 "#a0a0a0",
                                 (e) -> {
-
+                                        ReportController reportController = new ReportController();
+                                        reportController.ReportCategory();
                                 });
                 IconCustom iconAdd = new IconCustom("svg/add.svg", 1f, null);
                 btnAdd = new ButtonCustom(
@@ -99,6 +101,7 @@ public class CategoryView extends JPanel {
                                 iconAdd.getIcon(),
                                 "#e7000a",
                                 (e) -> {
+                                        CategoryAddView.isUpdate = false;
                                         changeContent(new CategoryAddView("Tambah Kategori"));
                                 });
                 headerPanel.add(lbTitle, "split 3");

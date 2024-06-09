@@ -9,7 +9,7 @@ import ac.id.unindra.hikal_spk.UI.Button.ButtonCustom;
 import ac.id.unindra.hikal_spk.UI.Icon.IconCustom;
 import ac.id.unindra.hikal_spk.UI.TextField.TextFieldCustom;
 import ac.id.unindra.hikal_spk.category.controller.CategoryController;
-import ac.id.unindra.hikal_spk.utils.model.category.CategoryModel;
+import ac.id.unindra.hikal_spk.utils.model.CategoryModel;
 import net.miginfocom.swing.MigLayout;
 
 public class CategoryAddView extends JPanel {

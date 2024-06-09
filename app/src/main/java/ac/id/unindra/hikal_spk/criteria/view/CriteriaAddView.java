@@ -18,8 +18,8 @@ import ac.id.unindra.hikal_spk.UI.TextField.TextFieldCustom;
 import ac.id.unindra.hikal_spk.category.view.CategoryView;
 import ac.id.unindra.hikal_spk.criteria.controller.CriteriaController;
 import ac.id.unindra.hikal_spk.utils.DoubleFilter;
-import ac.id.unindra.hikal_spk.utils.model.category.CategoryModel;
-import ac.id.unindra.hikal_spk.utils.model.criteria.CriteriaModel;
+import ac.id.unindra.hikal_spk.utils.model.CategoryModel;
+import ac.id.unindra.hikal_spk.utils.model.CriteriaModel;
 import net.miginfocom.swing.MigLayout;
 
 public class CriteriaAddView extends JPanel {

@@ -4,10 +4,10 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
 import ac.id.unindra.hikal_spk.UI.TextField.TextFieldCustom;
-import ac.id.unindra.hikal_spk.utils.dao.alternative.AlternativeDAO;
-import ac.id.unindra.hikal_spk.utils.model.TableModel.alternative.AlternativeTableModel;
-import ac.id.unindra.hikal_spk.utils.model.alternative.AlternativeModel;
-import ac.id.unindra.hikal_spk.utils.model.category.CategoryModel;
+import ac.id.unindra.hikal_spk.utils.dao.AlternativeDAO;
+import ac.id.unindra.hikal_spk.utils.model.AlternativeModel;
+import ac.id.unindra.hikal_spk.utils.model.CategoryModel;
+import ac.id.unindra.hikal_spk.utils.model.TableModel.AlternativeTableModel;
 
 public class AlternativeController {
 
