@@ -14,6 +14,7 @@ import ac.id.unindra.hikal_spk.UI.Button.ButtonCustom;
 import ac.id.unindra.hikal_spk.UI.Icon.IconCustom;
 import ac.id.unindra.hikal_spk.UI.Table.TableCustom;
 import ac.id.unindra.hikal_spk.UI.TextField.TextFieldCustom;
+import ac.id.unindra.hikal_spk.report.controller.ReportController;
 import ac.id.unindra.hikal_spk.spk.controller.SPKController;
 import ac.id.unindra.hikal_spk.utils.CurrentDateTime;
 import ac.id.unindra.hikal_spk.utils.UserToken;
@@ -71,7 +72,8 @@ public class SPKRankView extends JPanel {
                 iconPrint.getIcon(),
                 "#e7000a",
                 (e) -> {
-
+                    ReportController reportController = new ReportController();
+                    reportController.ReportSPKResult(idSPK);
                 });
         headerPanel.add(lbTitle, "split 3");
         headerPanel.add(btnPrint, "w 100!, h 30!");
@@ -82,11 +84,6 @@ public class SPKRankView extends JPanel {
         tableModel.setData(rankListMap);
         spkTable = new TableCustom(tableModel, null);
         contentPanel.add(spkTable);
-    }
-
-    private void refreshUI() {
-        repaint();
-        revalidate();
     }
 
     private void saveSpk() {
@@ -121,4 +118,5 @@ public class SPKRankView extends JPanel {
     private SPKController controller = new SPKController();
     private RankTableModel tableModel = new RankTableModel();
     SPKModel model = new SPKModel();
+    public static String idSPK;
 }

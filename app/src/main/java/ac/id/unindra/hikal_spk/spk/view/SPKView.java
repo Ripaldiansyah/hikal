@@ -159,6 +159,7 @@ public class SPKView extends JPanel {
                 model.setSpkID(spkTableModel.getSelectedIndex(indexRow).getSpkID());
                 SPKRankView.rankListMap = controller.getDetailRank(model);
                 SPKRankView.isOnlyView = true;
+                SPKRankView.idSPK = model.getSpkID();
                 changeContent(new SPKRankView());
         }
 

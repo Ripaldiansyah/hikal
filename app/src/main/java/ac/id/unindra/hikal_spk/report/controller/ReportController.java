@@ -93,22 +93,15 @@ public class ReportController {
         }
     }
 
-    public void ReportSPKResult() {
+    public void ReportSPKResult(String id) {
 
         try {
             String file = "app/src/main/resources/jasper/ReportSPKResult.jasper";
             HashMap<String, Object> parameters = new HashMap<>();
+            parameters.put("id_spk", id);
             parameters.put(JRParameter.REPORT_LOCALE, new Locale("id"));
 
-            List<ReportModel> alternativeRanks = new ArrayList<>();
-            for (Map<Object, Object> map : rankListMap) {
-                String alternativeName = (String) map.get("alternativeName");
-                int rank = (int) map.get("rank");
-                alternativeRanks.add(new ReportModel(alternativeName, rank));
-            }
-
-            JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(alternativeRanks);
-            JasperPrint print = JasperFillManager.fillReport(file, parameters, dataSource);
+            JasperPrint print = JasperFillManager.fillReport(file, parameters, conn);
             JasperViewer.viewReport(print, false);
 
         } catch (Exception e) {

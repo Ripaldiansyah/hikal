@@ -9,6 +9,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import ac.id.unindra.hikal_spk.spk.view.SPKRankView;
 import ac.id.unindra.hikal_spk.utils.DatabaseConnection;
 import ac.id.unindra.hikal_spk.utils.model.CategoryModel;
 import ac.id.unindra.hikal_spk.utils.model.SPKModel;
@@ -41,6 +42,7 @@ public class SPKDAO implements SPKService {
                 SPKid = generatedKeys.getInt(1);
                 spk.setSpkID(String.valueOf(SPKid));
                 detailSPK(spk);
+                SPKRankView.idSPK = spk.getSpkID();
             }
 
         } catch (Exception e) {
